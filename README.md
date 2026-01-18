@@ -105,6 +105,9 @@ https://www.figma.com/design/XzJpkPYqGAfu7lAaBdDetl/%E7%94%BB%E9%9D%A2%E9%81%B7%
 - 利用規約ページ
 - プライバシーポリシーページ
 
+## ER図
+[![Image from Gyazo](https://i.gyazo.com/77172f2127166fda93a354f66ba7d3a1.png)](https://gyazo.com/77172f2127166fda93a354f66ba7d3a1)
+
 ## 使用する技術スタック
 ### バックエンド
 - Ruby 3.3.8
