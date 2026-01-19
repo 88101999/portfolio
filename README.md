@@ -106,7 +106,7 @@ https://www.figma.com/design/XzJpkPYqGAfu7lAaBdDetl/%E7%94%BB%E9%9D%A2%E9%81%B7%
 - プライバシーポリシーページ
 
 ## ER図
-[![Image from Gyazo](https://i.gyazo.com/77172f2127166fda93a354f66ba7d3a1.png)](https://gyazo.com/77172f2127166fda93a354f66ba7d3a1)
+[![Image from Gyazo](https://i.gyazo.com/ddbc36ca9a3af6f8461ac7aba9e9d7cb.png)](https://gyazo.com/ddbc36ca9a3af6f8461ac7aba9e9d7cb)
 
 ## 使用する技術スタック
 ### バックエンド
