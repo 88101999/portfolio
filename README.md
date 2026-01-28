@@ -120,7 +120,7 @@ https://www.figma.com/design/XzJpkPYqGAfu7lAaBdDetl/%E7%94%BB%E9%9D%A2%E9%81%B7%
 - TailwindCSS
 
 ### データベース
-- MySQL
+- PostgreSQL
 
 ### ユーザー認証
 - Sorcery
