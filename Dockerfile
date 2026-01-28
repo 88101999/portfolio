@@ -13,8 +13,11 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl default-mysql-client libjemalloc2 libvips && \
+    apt-get install --no-install-recommends -y curl default-mysql-client libjemalloc2 libvips nodejs npm && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install yarn globally
+RUN npm install --global yarn
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -38,12 +41,12 @@ RUN bundle install && \
 
 # Copy application code
 COPY . .
-
+RUN yarn install
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 
