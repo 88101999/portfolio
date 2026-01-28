@@ -6,11 +6,16 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= render 'shared/header' %>
+    <% if logged_in? %>
+      <%= render 'shared/header' %>
+    <% else %>
+      <%= render 'shared/before_login_header' %>
+    <% end %>
+    <%= render 'shared/flash_message' %>
     <%= yield %>
   </body>
 </html>
