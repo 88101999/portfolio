@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  has_many :answers
+  has_many :answer_logs
+
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
