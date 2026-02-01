@@ -19,5 +19,5 @@ Rails.application.routes.draw do
 
   resources :questions, only: %i[new]
   resources :answers, only: %i[create]
-  get 'coordinates', to: 'coordinates#show'
+  get 'coordinates', to: 'coordinates#index'
 end
