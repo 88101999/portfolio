@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :questions, only: %i[new]
+  resources :answers, only: %i[create]
+  get 'coordinates', to: 'coordinates#show'
 end
