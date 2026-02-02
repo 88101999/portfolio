@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-auto">
+      <h1>おすすめのコーディネート</h1>
+        <% @coordinates.each do |coordinate| %>
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title"><%= coordinate.name %></h5>
+              <p class="card-text"><%= coordinate.description %></p>
+            </div>
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>
