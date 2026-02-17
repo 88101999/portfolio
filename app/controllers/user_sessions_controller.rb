@@ -12,7 +12,7 @@ class UserSessionsController < ApplicationController
       flash.now[:danger] = 'ログインに失敗しました'
       render :new, status: :unprocessable_entity
     end
-  end
+  end 
 
   def destroy
     logout
