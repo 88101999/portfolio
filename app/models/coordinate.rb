@@ -1,7 +1,9 @@
 class Coordinate < ApplicationRecord
-  has_many :coordinate_options
+  has_many :coordinate_options, inverse_of: :coordinate, dependent: :destroy
   has_many :options, through: :coordinate_options
 
+  accepts_nested_attributes_for :coordinate_options
+  
   validates :name, presence: true
 
   def self.search_by_options(option_ids)
