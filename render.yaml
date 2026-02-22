@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: portfolio
+    env: docker
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: portfolio-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+
+databases:
+  - name: portfolio-db
+    databaseName: portfolio_production
+    user: portfolio
+    region: virginia
+    plan: free
