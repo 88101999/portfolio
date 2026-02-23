@@ -7,16 +7,18 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-if Rails.env.development?
   puts "=== 既存データをクリアします ==="
-  Answer.destroy_all 
+  ActiveRecord::Base.connection.execute("SET session_replication_role = 'replica';")
+
+# Answer.destroy_all 
   CoordinateOption.destroy_all
   Coordinate.destroy_all
   Option.destroy_all 
   Question.destroy_all
+
+  ActiveRecord::Base.connection.execute("SET session_replication_role = 'origin';")
   puts "✅ クリア完了！"
-  puts ""
-end
+
 
 questions_data = [
   {
