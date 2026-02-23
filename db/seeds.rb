@@ -38,15 +38,16 @@ questions_data = [
 ]
 
 questions_data.each do |data|
-  question = Question.find_or_create_by!(text: data[:text]) do |q|
-    data[:options].each do |option_name|
-      q.options.build(name: option_name)
-    end
+  question = Question.find_or_create_by!(text: data[:text])
+
+  data[:options].each do |option_name|
+    option = Option.find_or_create_by!(name: option_name, question: question)
   end
 end
 
-puts "#{Question.count} questions created!"
-puts "#{Option.count} options created!"
+puts "✅ #{Question.count} questions created!"
+puts "✅ #{Option.count} options created!"
+puts ""
 
 coordinates_data = [
   {
@@ -412,10 +413,9 @@ coordinates_data = [
 ]
 
 coordinates_data.each do |data|
-  coordinate = Coordinate.new(
-    name: data[:name],
-    description: data[:description]
-  )
+  coordinate = Coordinate.find_or_create_by!(name: data[:name]) do |c|
+    c.description = data[:description]
+  end
 
   data[:options].each do |option_name|
     option = Option.find_by(name: option_name)
@@ -424,20 +424,16 @@ coordinates_data.each do |data|
       puts "⚠️ Warning: Option '#{option_name}' not found for coordinate '#{data[:name]}'"
       next
     end
-
-    coordinate.coordinate_options.build(option: option)
-  end
-
-  if coordinate.save
-    puts "✅ #{coordinate.name} を保存しました"
-  else
-    puts "❌ エラー: #{coordinate.name}"
-    puts "  詳細: #{coordinate.errors.full_messages.join(', ')}"
-
-    coordinate.coordinate_options.each_with_index do |co, index|
-      if co.errors.any?
-        puts "  CoordinateOption[#{index}] エラー: #{co.errors.full_messages.join(', ')}"
-      end
+    
+    unless coordinate.options.include?(option)
+      coordinate.coordinate_options.create!(option: option)
     end
   end
 end
+
+puts ""
+puts "=== シードデータの投入が完了しました ==="
+puts "✅ Questions: #{Question.count}"
+puts "✅ Options: #{Option.count}"
+puts "✅ Coordinates: #{Coordinate.count}"
+puts "✅ CoordinateOptions: #{CoordinateOption.count}"
