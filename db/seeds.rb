@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
   puts "=== 既存データをクリアします ==="
-  ActiveRecord::Base.connection.execute("SET session_replication_role = 'replica';")
+  Answer.update_all(option_id: nil)
 
 # Answer.destroy_all 
   CoordinateOption.destroy_all
@@ -16,7 +16,6 @@
   Option.destroy_all 
   Question.destroy_all
 
-  ActiveRecord::Base.connection.execute("SET session_replication_role = 'origin';")
   puts "✅ クリア完了！"
 
 
