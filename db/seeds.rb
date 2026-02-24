@@ -7,16 +7,21 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-  puts "=== 既存データをクリアします ==="
-  Answer.update_all(option_id: nil)
+if Question.exists?
+  puts "⚠️ データが既に存在するため、シードデータの投入をスキップします"
+  exit
+end
 
-# Answer.destroy_all 
-  CoordinateOption.destroy_all
-  Coordinate.destroy_all
-  Option.destroy_all 
-  Question.destroy_all
+puts "=== 既存データをクリアします ==="
 
-  puts "✅ クリア完了！"
+# データが存在しない場合のみ削除処理を実行
+Answer.destroy_all
+CoordinateOption.destroy_all
+Coordinate.destroy_all
+Option.destroy_all 
+Question.destroy_all
+
+puts "✅ クリア完了！"
 
 
 questions_data = [
