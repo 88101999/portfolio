@@ -435,6 +435,16 @@ coordinates_data.each do |data|
       coordinate.coordinate_options.create!(option: option)
     end
   end
+
+  image_path = Rails.root.join( 'db', 'seeds', 'images', "#{data[:name]}.png")
+  if File.exist?(image_path) && !coordinate.image.attached?
+    coordinate.image.attach(
+      io: File.open(image_path),
+      filename: "#{coordinate.name}.png",
+      content_type: 'image/png'
+    )
+    puts "✅ 画像を添付しました"
+  end
 end
 
 puts ""
