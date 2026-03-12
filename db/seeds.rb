@@ -7,22 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-if Question.exists?
-  puts "⚠️ データが既に存在するため、シードデータの投入をスキップします"
-  exit
-end
-
-puts "=== 既存データをクリアします ==="
-
-# データが存在しない場合のみ削除処理を実行
-Answer.destroy_all
-CoordinateOption.destroy_all
-Coordinate.destroy_all
-Option.destroy_all 
-Question.destroy_all
-
-puts "✅ クリア完了！"
-
 
 questions_data = [
   {
@@ -42,18 +26,6 @@ questions_data = [
     options: ["カジュアル系", "キレイ目系", "ストリート系"]
   }
 ]
-
-questions_data.each do |data|
-  question = Question.find_or_create_by!(text: data[:text])
-
-  data[:options].each do |option_name|
-    option = Option.find_or_create_by!(name: option_name, question: question)
-  end
-end
-
-puts "✅ #{Question.count} questions created!"
-puts "✅ #{Option.count} options created!"
-puts ""
 
 coordinates_data = [
   {
@@ -417,6 +389,60 @@ coordinates_data = [
     options: ["レディース系", "冬", "特別な日(デート、イベントなど)", "ストリート系"]
   }
 ]
+
+if Question.exists?
+  puts "⚠️ データが既に存在するため、削除処理をスキップします"
+  puts "=== 画像添付処理のみ実行します ==="
+  
+  # 画像添付処理のみ実行
+  coordinates_data.each do |data|
+    coordinate = Coordinate.find_by(name: data[:name])
+    next unless coordinate
+    
+    image_path = Rails.root.join('db', 'seeds', 'images', "#{data[:name]}.png")
+    puts "📂 探しているパス: #{image_path}"
+    puts "📁 ファイルが存在するか: #{File.exist?(image_path)}"
+    
+    if File.exist?(image_path)
+      if coordinate.image.attached?
+        puts "⚠️ 画像は既に添付されています: #{data[:name]}"
+      else
+        coordinate.image.attach(
+          io: File.open(image_path),
+          filename: "#{data[:name]}.png",
+          content_type: 'image/png'
+        )
+        puts "✅ 画像を添付しました: #{data[:name]}"
+      end
+    else
+      puts "❌ 画像ファイルが見つかりません: #{image_path}"
+    end
+  end
+  
+  puts "=== 画像添付処理が完了しました ==="
+  exit
+end
+
+# 3. データが存在しない場合の処理（以下、既存のコードをそのまま）
+puts "=== 既存データをクリアします ==="
+Answer.destroy_all
+CoordinateOption.destroy_all
+Coordinate.destroy_all
+Option.destroy_all 
+Question.destroy_all
+puts "✅ クリア完了！"
+
+questions_data.each do |data|
+  question = Question.find_or_create_by!(text: data[:text])
+
+  data[:options].each do |option_name|
+    option = Option.find_or_create_by!(name: option_name, question: question)
+  end
+end
+
+puts "✅ #{Question.count} questions created!"
+puts "✅ #{Option.count} options created!"
+puts ""
 
 coordinates_data.each do |data|
   coordinate = Coordinate.find_or_create_by!(name: data[:name]) do |c|
