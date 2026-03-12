@@ -1,9 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-auto">
-      <h1>おすすめのコーディネート</h1>
+      <h1 class="text-center mb-4">おすすめのコーディネート</h1>
         <% @coordinates.each do |coordinate| %>
-          <div class="card mb-3">
+          <div class="card mb-4 shadow-sm">
+            <% if coordinate.image.attached? %>
+              <%= image_tag coordinate.image, alt: "コーディネート画像", class: "coordinate-image" %>
+            <% end %>
             <div class="card-body">
               <h5 class="card-title"><%= coordinate.name %></h5>
               <p class="card-text"><%= coordinate.description %></p>
