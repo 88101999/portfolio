@@ -436,14 +436,28 @@ coordinates_data.each do |data|
     end
   end
 
-  image_path = Rails.root.join( 'db', 'seeds', 'images', "#{data[:name]}.png")
+  # 画像パスの確認（デバッグ用）
+  image_path = Rails.root.join('db', 'seeds', 'images', "#{data[:name]}.png")
+  puts "📂 探しているパス: #{image_path}"
+  puts "📁 ファイルが存在するか: #{File.exist?(image_path)}"
+  
+  # ディレクトリ内のファイル一覧を表示（最初の1回だけ）
+  if coordinate == Coordinate.first
+    puts "📋 実際のファイル一覧:"
+    Dir.glob(Rails.root.join('db', 'seeds', 'images', '*.png')).first(5).each do |file|
+      puts "  - #{File.basename(file)}"
+    end
+  end
+  
   if File.exist?(image_path) && !coordinate.image.attached?
     coordinate.image.attach(
       io: File.open(image_path),
       filename: "#{coordinate.name}.png",
       content_type: 'image/png'
     )
-    puts "✅ 画像を添付しました"
+    puts "✅ 画像を添付しました: #{data[:name]}"
+  else
+    puts "❌ 画像が見つかりませんでした: #{data[:name]}"
   end
 end
 
