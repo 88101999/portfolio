@@ -394,7 +394,6 @@ if Question.exists?
   puts "⚠️ データが既に存在するため、削除処理をスキップします"
   puts "=== 画像添付処理のみ実行します ==="
   
-  # 画像添付処理のみ実行
   coordinates_data.each do |data|
     coordinate = Coordinate.find_by(name: data[:name])
     next unless coordinate
@@ -404,16 +403,15 @@ if Question.exists?
     puts "📁 ファイルが存在するか: #{File.exist?(image_path)}"
     
     if File.exist?(image_path)
-      if coordinate.image.attached?
-        puts "⚠️ 画像は既に添付されています: #{data[:name]}"
-      else
-        coordinate.image.attach(
-          io: File.open(image_path),
-          filename: "#{data[:name]}.png",
-          content_type: 'image/png'
-        )
-        puts "✅ 画像を添付しました: #{data[:name]}"
-      end
+      # 既存の画像を削除してから再添付
+      coordinate.image.purge if coordinate.image.attached?
+      
+      coordinate.image.attach(
+        io: File.open(image_path),
+        filename: "#{data[:name]}.png",
+        content_type: 'image/png'
+      )
+      puts "✅ 画像を添付しました: #{data[:name]}"
     else
       puts "❌ 画像ファイルが見つかりません: #{image_path}"
     end
