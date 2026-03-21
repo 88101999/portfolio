@@ -12,6 +12,11 @@
           <div class="card-body">
             <h5 class="card-title"><%= coordinate.name %></h5>
             <p class="card-text"><%= coordinate.description %></p>
+
+            <div class="ai-explanation">
+              <h4>【このコーディネートがおすすめな理由】</h4>
+              <p><%= simple_format(@answer_log.ai_explanation) %></p>
+            </div>
           </div>
         </div>
       <% end %>
