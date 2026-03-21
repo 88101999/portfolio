@@ -16,6 +16,7 @@ services:
       - "3000:3000"
     volumes:
       - .:/rails
+      - bundle_data:/usr/local/bundle:cached
     depends_on:
       db:
         condition: service_healthy
