@@ -14,8 +14,19 @@
             <p class="card-text"><%= coordinate.description %></p>
 
             <div class="ai-explanation">
-              <h4>【このコーディネートがおすすめな理由】</h4>
-              <p><%= simple_format(@answer_log.ai_explanation) %></p>
+              <h4>【AIがこのコーディネートを解説します!】</h4>
+              <% if @ai_explanation_error.present? %>
+                <!-- エラーメッセージを表示 -->
+                <div class="alert alert-warning" role="alert">
+                  <%= @ai_explanation_error %>
+                </div>
+              <% elsif @answer_log.ai_explanation.present? %>
+                <!-- AI解説を表示 -->
+                <p><%= simple_format(@answer_log.ai_explanation) %></p>
+              <% else %>
+                <!-- AI解説がまだ生成されていない場合のメッセージ -->
+                <p>AIによる解説を生成中です。しばらくお待ちください...</p>
+              <% end %>
             </div>
           </div>
         </div>
