@@ -5,7 +5,7 @@ class CoordinateRecommendationService
   def initialize(user_answers, coordinate, ip_address)
     @user_answers = user_answers
     @coordinate = coordinate
-    @ip_address = ip_address
+    @ip_address = ip_address || 'unknown'
     @client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
   end
 

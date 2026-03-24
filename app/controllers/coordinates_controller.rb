@@ -13,7 +13,14 @@ class CoordinatesController < ApplicationController
         user_answers = format_user_answers(@answer_log)
         coordinate = @coordinates.first
 
-        service = CoordinateRecommendationService.new(user_answers, coordinate, request.remote_ip)
+        # IPアドレス取得を改善
+        ip_address = get_client_ip
+        
+        # デバッグログ追加
+        Rails.logger.info("=== IP Address Debug ===")
+        Rails.logger.info("IP Address: #{ip_address}")
+        
+        service = CoordinateRecommendationService.new(user_answers, coordinate, ip_address)
 
         @answer_log.ai_explanation = service.call
         @answer_log.save!
@@ -33,5 +40,19 @@ class CoordinatesController < ApplicationController
     answer_log.answers.includes(:question, :option).map do |answer|
       "#{answer.question.text}: #{answer.option.name}"
     end.join("\n")
+  end
+  
+  # IPアドレスを取得するメソッドを追加
+  def get_client_ip
+    # Renderなどのプロキシ経由の場合、X-Forwarded-Forヘッダーから取得
+    forwarded_for = request.headers['X-Forwarded-For']
+    
+    if forwarded_for.present?
+      # カンマ区切りの場合は最初のIPを使用
+      forwarded_for.split(',').first.strip
+    else
+      # フォールバック
+      request.remote_ip || request.ip || 'unknown'
+    end
   end
 end
