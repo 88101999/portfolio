@@ -13,12 +13,13 @@ class CoordinatesController < ApplicationController
         user_answers = format_user_answers(@answer_log)
         coordinate = @coordinates.first
 
-        # IPアドレス取得を改善
-        ip_address = get_client_ip
+        # 修正：実際のクライアントIPを取得
+        ip_address = get_real_client_ip
         
-        # デバッグログ追加
         Rails.logger.info("=== IP Address Debug ===")
         Rails.logger.info("IP Address: #{ip_address}")
+        Rails.logger.info("X-Forwarded-For: #{request.headers['X-Forwarded-For']}")
+        Rails.logger.info("CF-Connecting-IP: #{request.headers['CF-Connecting-IP']}")
         
         service = CoordinateRecommendationService.new(user_answers, coordinate, ip_address)
 
@@ -42,13 +43,16 @@ class CoordinatesController < ApplicationController
     end.join("\n")
   end
   
-  # IPアドレスを取得するメソッドを追加
-  def get_client_ip
-    # Renderなどのプロキシ経由の場合、X-Forwarded-Forヘッダーから取得
-    forwarded_for = request.headers['X-Forwarded-For']
+  # 実際のクライアントIPを取得
+  def get_real_client_ip
+    # Cloudflareを使用している場合は CF-Connecting-IP を優先
+    cloudflare_ip = request.headers['CF-Connecting-IP']
+    return cloudflare_ip if cloudflare_ip.present?
     
+    # それ以外のプロキシの場合は X-Forwarded-For から取得
+    forwarded_for = request.headers['X-Forwarded-For']
     if forwarded_for.present?
-      # カンマ区切りの場合は最初のIPを使用
+      # カンマ区切りの場合は最初のIPを使用（実際のクライアントIP）
       forwarded_for.split(',').first.strip
     else
       # フォールバック
