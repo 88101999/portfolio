@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   resources :questions, only: %i[new]
   resources :answers, only: %i[create]
   get 'coordinates', to: 'coordinates#index'
+
+  resources :coordinates, only: %i[index show]
+
+  resources :bookmarks, only: %i[index create destroy]
 end
