@@ -35,6 +35,24 @@ class CoordinatesController < ApplicationController
     end
   end
   
+  def show
+    @coordinate = Coordinate.find(params[:id])
+    @answer_log = current_user.answer_logs.order(created_at: :desc).first
+    @ai_explanation_error = nil
+
+    if @answer_log&.ai_explanation.blank?
+      @ai_explanation_error = "このコーディネートのAI解説は、コーディネート提案ページからご覧いただけます。"
+    end
+  end
+
+  def bookmark
+    @answer_log = current_user.answer_logs.order(created_at: :desc).first
+    if @answer_log.nil?
+      redirect_to new_question_path, alert: "質問ページから回答の登録を行ってください"
+      return
+    end
+  end
+
   private
   
   def format_user_answers(answer_log)
