@@ -1,34 +1,32 @@
-<% content_for :title, 'お気に入りコーディネート一覧' %>
-<div class="container pt-3">
-  <div class="row">
-    <div class="col-12">
-      <p>お気に入りコーディネート一覧</p>
-      <% if @bookmarks.any? %>
-        <div class="row">
-          <% @bookmarks.each do |bookmark| %>
-            <% coordinate = bookmark.coordinate %>
-            <div class="col-md-6 col-lg-4 mb-4">
-              <div class="card h-100">
-                <% if coordinate.image.attached? %>
-                  <%= image_tag coordinate.image, alt: coordinate.name, class: "card-img-top" %>
-                <% end %>
-                <div class="card-body">
-                  <h5 class="card-title"><%= bookmark.coordinate.name %></h5>
-                    <p class="card-text">
-                      <%= coordinate.description %>
-                    </p>
-                    <%= link_to 'コーディネートを見る', bookmark.coordinate, class: 'btn btn-primary' %>
-                    <%= link_to 'お気に入りから削除', bookmark_path(bookmark),
-                                data: { turbo_method: :delete, turbo_confirm: 'お気に入りから削除しますか？' },
-                                class: 'btn btn-outline-danger' %>
+  <% content_for :title, 'お気に入りコーディネート一覧' %>
+  <div class="container pt-3">
+    <div class="row">
+      <div class="col-12">
+        <p>お気に入りコーディネート一覧</p>
+        <% if @bookmarks.any? %>
+          <div class="row">
+            <% @bookmarks.each do |bookmark| %>
+              <% coordinate = bookmark.coordinate %>
+              <div class="col-md-6 col-lg-4 mb-4" id="bookmark-card-<%= coordinate.id %>">
+                <div class="card h-100">
+                  <% if coordinate.image.attached? %>
+                    <%= image_tag coordinate.image, alt: coordinate.name, class: "card-img-top" %>
+                  <% end %>
+                  <div class="card-body">
+                    <h5 class="card-title"><%= bookmark.coordinate.name %></h5>
+                      <p class="card-text">
+                        <%= coordinate.description %>
+                      </p>
+                      <%= link_to 'コーディネートを見る', bookmark.coordinate, class: 'btn btn-primary' %>
+                      <%= render 'bookmarks/bookmark_button', coordinate: coordinate %>
+                    </div>
                   </div>
                 </div>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <p>お気に入りのコーディネートがありません。</p>
-        <% end %>
+              <% end %>
+            </div>
+          <% else %>
+            <p>お気に入りのコーディネートがありません。</p>
+          <% end %>
+        </div>
       </div>
     </div>
-  </div>

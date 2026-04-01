@@ -1,0 +1,7 @@
+<% if request.referer&.include?('bookmarks') %>
+  <%= turbo_stream.remove "bookmark-card-#{@coordinate.id}" %>
+<% else %>
+  <%= turbo_stream.replace "bookmark-button-#{@coordinate.id}" do %>
+    <%= render 'bookmarks/bookmark_button', coordinate: @coordinate %>
+  <% end %>
+<% end %>
