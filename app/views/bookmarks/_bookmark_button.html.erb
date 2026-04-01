@@ -1,0 +1,13 @@
+<div id="bookmark-button-<%= coordinate.id %>">
+  <% if bookmarked?(coordinate) %>
+    <%= button_to 'お気に入りから削除',
+                  bookmark_path(find_bookmark(coordinate)),
+                  method: :delete,
+                  class: 'btn btn-warning' %>
+  <% else %>
+    <%= button_to 'お気に入りに追加',
+                  bookmarks_path(coordinate_id: coordinate.id),
+                  method: :post,
+                  class: 'btn btn-primary' %>
+  <% end %>
+</div>

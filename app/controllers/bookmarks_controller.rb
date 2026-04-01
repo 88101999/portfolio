@@ -12,14 +12,26 @@ class BookmarksController < ApplicationController
       return
     end
 
-    current_user.bookmarks.create(coordinate: @coordinate)
-    redirect_to coordinates_path, notice: "お気に入りに追加しました"
+    @bookmark = current_user.bookmarks.build(coordinate: @coordinate)
+
+    if @bookmark.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: coordinates_path, notice: "お気に入りに追加しました" }
+      end
+    else
+      redirect_back fallback_location: coordinates_path, alert: "お気に入りに追加できませんでした"
+    end
   end
 
   def destroy
     @bookmark = current_user.bookmarks.find(params[:id])
-    coordinate = @bookmark.coordinate
-    current_user.unbookmark(coordinate)
-    redirect_to bookmarks_path, notice: "お気に入りから削除しました"
+    @coordinate = @bookmark.coordinate
+    @bookmark.destroy!
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: coordinates_path, notice: "お気に入りから削除しました" }
+    end
   end
 end

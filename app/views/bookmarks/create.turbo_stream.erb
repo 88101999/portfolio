@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "bookmark-button-#{@coordinate.id}" do %>
+  <%= render 'bookmarks/bookmark_button', coordinate: @coordinate %>
+<% end %>
