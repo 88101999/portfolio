@@ -1,35 +1,37 @@
 class CoordinatesController < ApplicationController
   def index
     @answer_log = current_user.answer_logs.order(created_at: :desc).first
+  
     if @answer_log.nil?
       redirect_to new_question_path, alert: "質問ページから回答の登録を行ってください"
       return
     end
+  
     selected_option_ids = @answer_log.answers.pluck(:option_id)
     @coordinates = Coordinate.search_by_options(selected_option_ids)
-
-    if @answer_log.ai_explanation.blank? && @coordinates.present?
+  
+    if @coordinates.blank?
+      redirect_to new_question_path, alert: "該当するコーディネートが見つかりませんでした"
+      return
+    end
+  
+    if @answer_log.coordinate.nil?
+      @answer_log.update!(coordinate: @coordinates.first)
+    end
+  
+    if @answer_log.ai_explanation.blank?
       begin
         user_answers = format_user_answers(@answer_log)
         coordinate = @coordinates.first
-
-        # 修正：実際のクライアントIPを取得
         ip_address = get_real_client_ip
-        
-        Rails.logger.info("=== IP Address Debug ===")
-        Rails.logger.info("IP Address: #{ip_address}")
-        Rails.logger.info("X-Forwarded-For: #{request.headers['X-Forwarded-For']}")
-        Rails.logger.info("CF-Connecting-IP: #{request.headers['CF-Connecting-IP']}")
-        
+      
         service = CoordinateRecommendationService.new(user_answers, coordinate, ip_address)
-
         @answer_log.ai_explanation = service.call
         @answer_log.save!
-
       rescue CoordinateRecommendationService::RateLimitExceededError => e
         @ai_explanation_error = e.message
       rescue StandardError => e
-        Rails.logger.error("Ai explanation error: #{e.message}")
+        Rails.logger.error("AI explanation error: #{e.message}")
         @ai_explanation_error = "AIによる説明の生成に失敗しました。"
       end
     end
@@ -42,14 +44,6 @@ class CoordinatesController < ApplicationController
 
     if @answer_log&.ai_explanation.blank?
       @ai_explanation_error = "このコーディネートのAI解説は、コーディネート提案ページからご覧いただけます。"
-    end
-  end
-
-  def bookmark
-    @answer_log = current_user.answer_logs.order(created_at: :desc).first
-    if @answer_log.nil?
-      redirect_to new_question_path, alert: "質問ページから回答の登録を行ってください"
-      return
     end
   end
 

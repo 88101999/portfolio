@@ -1,0 +1,33 @@
+FROM ruby:3.3.8
+
+# 必要なパッケージをインストール
+RUN apt-get update -qq && \
+    apt-get install -y \
+    build-essential \
+    libpq-dev \
+    nodejs \
+    npm \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Yarn をインストール
+RUN npm install --global yarn
+
+# 作業ディレクトリを設定
+WORKDIR /rails
+
+# Gemfile をコピーして bundle install
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# アプリケーションコードをコピー
+COPY . .
+
+# Node modules をインストール
+RUN yarn install
+
+# ポートを公開
+EXPOSE 3000
+
+# サーバー起動コマンド
+CMD ["bash"]

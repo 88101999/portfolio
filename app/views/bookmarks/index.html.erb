@@ -3,30 +3,72 @@
     <div class="row">
       <div class="col-12">
         <p>お気に入りコーディネート一覧</p>
+
         <% if @bookmarks.any? %>
           <div class="row">
             <% @bookmarks.each do |bookmark| %>
               <% coordinate = bookmark.coordinate %>
               <div class="col-md-6 col-lg-4 mb-4" id="bookmark-card-<%= coordinate.id %>">
-                <div class="card h-100">
+                <div class="card h-100" style="cursor: pointer;"
+                     data-bs-toggle="modal"
+                     data-bs-target="#coordinateModal<%= coordinate.id %>">
                   <% if coordinate.image.attached? %>
                     <%= image_tag coordinate.image, alt: coordinate.name, class: "card-img-top" %>
                   <% end %>
                   <div class="card-body">
                     <h5 class="card-title"><%= bookmark.coordinate.name %></h5>
-                      <p class="card-text">
-                        <%= coordinate.description %>
-                      </p>
-                      <%= link_to 'コーディネートを見る', bookmark.coordinate, class: 'btn btn-primary' %>
-                      <%= render 'bookmarks/bookmark_button', coordinate: coordinate %>
+                    <p class="card-text"><%= truncate(coordinate.description, length: 100) %></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- モーダル -->
+              <div class="modal fade" id="coordinateModal<%= coordinate.id %>" tabindex="-1"
+                   aria-labelledby="coordinateModalLabel<%= coordinate.id %>" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="coordinateModalLabel<%= coordinate.id %>">
+                        <%= coordinate.name %>
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <% if coordinate.image.attached? %>
+                        <%= image_tag coordinate.image, alt: coordinate.name, class: "img-fluid mb-3" %>
+                      <% end %>
+                      <h6>説明</h6>
+                      <p><%= coordinate.description %></p>
+
+                    <div class="ai-explanation mt-4">
+                      <h6>【AIがこのコーディネートを解説します!】</h6>
+                      <% if coordinate.answer_log.present? && coordinate.answer_log.ai_explanation.present? %>
+                        <!-- AI解説を表示 -->
+                        <p><%= simple_format(coordinate.answer_log.ai_explanation) %></p>
+                      <% else %>
+                        <!-- AI解説がまだ生成されていない場合のメッセージ -->
+                        <p>AIによる解説を生成中です。しばらくお待ちください...</p>
+                      <% end %>
+                    </div>
+                  </div>
+
+                    <div class="modal-footer">
+                      <!-- 削除ボタン -->
+                      <%= button_to "お気に入りから削除",
+                                    bookmark_path(bookmark),
+                                    method: :delete,
+                                    class: "btn btn-danger",
+                                    form: {data: { turbo_confirm: "#{coordinate.name}をお気に入りから削除しますか?" } } %>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                     </div>
                   </div>
                 </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p>お気に入りのコーディネートがありません。</p>
-          <% end %>
-        </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>お気に入りのコーディネートがありません</p>
+        <% end %>
       </div>
     </div>
+  </div>
