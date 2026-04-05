@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-auto">
       <h1>あなたに合うコーディネート診断</h1>
-      <%= form_with url: answers_path, method: :post do |f| %>
+      <%= form_with url: answers_path, method: :post, local: true do |f| %>
         <div class="mb-3">
         <% @questions.each do |question| %>
           <p><%= question.text %></p>
