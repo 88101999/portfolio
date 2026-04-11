@@ -1,5 +1,5 @@
 .top-wrapper {
-  background-image: url('background.jpg') !important;
+  background-image: asset-url('background.jpg');
   height: calc(100vh - 134px);
   position: relative;
   background-position: center;
