@@ -69,5 +69,6 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["bash", "-c", "bundle exec rails db:migrate && bundle exec puma -C config/puma.rb"]
+CMD ["bash", "-c", "bundle exec rails db:migrate && bundle exec puma -C config/puma.rb -p ${PORT:-3000} -b 0.0.0.0"]
+
 
