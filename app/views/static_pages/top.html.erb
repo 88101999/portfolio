@@ -1,5 +1,38 @@
-<div class="top-wrapper">
-  <div class="top-inner-text">
-    <%= image_tag 'Coordia_Logo.png', alt: 'Coordia', class: 'app-logo' %>
+<div class="background-wrapper">
+  <div class="top-wrapper">
+    <div class="top-inner-text">
+      <%= image_tag 'Coordia_Logo.png', alt: 'Coordia', class: 'app-logo' %>
+    </div>
   </div>
-</div>  
+
+  <section class="how-to-use">
+    <div class="container">
+      <h2 class="section-title">使い方</h2>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">📝</div>
+          <h3 class="step-title">1. 質問に答える</h3>
+          <p class="step-description">好みや着たいシーンなど、いくつかの質問に答えます。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">👕</div>
+          <h3 class="step-title">2. あなたに合うコーディネートを提案</h3>
+          <p class="step-description">回答内容をもとに、あなたに合うコーディネートを提案します。</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">❤️</div>
+          <h3 class="step-title">3. 気に入ったコーディネートを保存</h3>
+          <p class="step-description">提案されたコーディネートは、お気に入り登録していつでも見返せます。</p>
+        </div>
+      </div>
+
+      <div class="cta-section">
+        <p class="registration-note">※ご利用にはユーザー登録が必要です。</p>
+        <%= link_to '登録してコーディネートを探す', login_path, class: "btn btn-primary btn-lg cta-button" %>
+      </div>
+    </div>
+  </section>
+</div>

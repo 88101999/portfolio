@@ -20195,3 +20195,113 @@ textarea.form-control-lg {
 .bi-globe-europe-africa-fill::before {
   content: "爛";
 }
+
+.background-wrapper {
+  background-image: url("/assets/background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.top-wrapper {
+  height: calc(100vh - 134px);
+  position: relative;
+}
+.top-wrapper .top-inner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+.top-wrapper .top-inner-text .app-logo {
+  max-width: 500px;
+  width: 80%;
+  height: auto;
+  margin-bottom: 30px;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+@media screen and (max-width: 767px) {
+  .top-wrapper .top-inner-text {
+    font-size: 2rem;
+  }
+}
+
+.how-to-use {
+  padding: 80px 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.85));
+}
+.how-to-use .section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 50px;
+  color: #333;
+}
+.how-to-use .section-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: -30px;
+  margin-bottom: 40px;
+}
+.how-to-use .steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+@media (max-width: 768px) {
+  .how-to-use .steps {
+    flex-direction: column;
+  }
+}
+.how-to-use .step {
+  flex: 1;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.how-to-use .step:hover {
+  transform: translateY(-5px);
+}
+.how-to-use .step-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+.how-to-use .step-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+.how-to-use .step-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+}
+.how-to-use .cta-section {
+  text-align: center;
+  margin-top: 50px;
+}
+.how-to-use .registration-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+.how-to-use .cta-button {
+  padding: 15px 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+.how-to-use .cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
