@@ -1,8 +1,10 @@
 .top-wrapper {
-  background-image: url('top.jpg');
+  background-image: url('background.jpg') !important;
   height: calc(100vh - 134px);
   position: relative;
   background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 
   .top-inner-text {
     position: absolute;
@@ -11,8 +13,15 @@
     transform: translate(-50%, -50%);
     width: 100%;
     text-align: center;
-    font-size: 3rem;
-    color: black;
+
+    .app-logo {
+      max-width: 500px;
+      width: 80%;
+      height: auto;
+      margin-bottom: 30px;
+
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+    }
 
     @media screen and (max-width: 767px) {
       font-size: 2rem;
