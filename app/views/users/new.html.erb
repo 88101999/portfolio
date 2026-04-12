@@ -1,7 +1,7 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-auto">
-      <h1>ユーザー登録</h1>
+  <div class="signup-wrapper">
+    <div class="signup-form-section">
+      <h1>新規登録</h1>
       <%= form_with model: @user do |f| %>
         <div class="mb-3">
           <%= f.label :name, class: "form-label" %>
@@ -19,8 +19,12 @@
           <%= f.label :password_confirmation, class: "form-label" %>
           <%= f.password_field :password_confirmation, class: "form-control" %>
         </div>
-        <%= f.submit "登録", class: "btn btn-primary" %>
+        <%= f.submit "登録する", class: "btn btn-primary w-100" %>
       <% end %>
+
+      <div class="mt-3 text-center">
+        <%= link_to 'すでにアカウントをお持ちの方はこちら', login_path, class: 'text-muted small' %>
+      </div>
     </div>
   </div>
 </div>
