@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center mb-4">パスワードリセット<h1>
+
+      <%= form_with url: password_resets_path, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "メールアドレス", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "メールアドレスを入力してください" %>
+        </div>
+
+        <%= f.submit "パスワードリセットのメールを送信", class: "btn btn-primary w-100" %>
+      <% end %>
+
+      <div class="text-center mt-3">
+        <%= link_to "ログインページに戻る", login_path %>
+      </div>
+    </div>
+  </div>
+</div>

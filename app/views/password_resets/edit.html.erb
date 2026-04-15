@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center mb-4">新しいパスワードを設定</h1>
+
+      <%= form_with model: @user, url: password_reset_path(@token), method: :patch, local: true do |f| %>
+        <%= render "shared/error_messages", object: f.object %>
+
+        <div class="mb-3">
+          <%= f.label :password, "新しいパスワード", class: "form-label" %>
+          <%= f.password_field :password, class: "form-control", placeholder: "新しいパスワードを入力してください" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password_confirmation, "パスワード確認", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-control", placeholder: "新しいパスワードを再入力してください" %>
+        </div>
+
+        <%= f.submit "パスワードを変更する", class:"btn btn-primary w-100" %>
+      <% end %>
+    </div>
+  </div>
+</div>
