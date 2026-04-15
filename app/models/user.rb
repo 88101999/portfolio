@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :password, confirmation: true, if: -> { new_record? || changes[:crypted_password] }
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
+  validates :reset_password_token, uniqueness: true, allow_nil: true
 
   def bookmark(coordinate)
     bookmarked_coordinates << coordinate
