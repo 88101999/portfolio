@@ -4,7 +4,7 @@ class OauthsController < ApplicationController
   before_action :validate_provider
 
   def oauth
-    login_at(params[:provider])
+    login_at(params[:provider], nil, allow_other_host: true)
   rescue StandardError => e
     Rails.logger.error "OAuth redirect error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
