@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_14_113718) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_19_123750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_14_113718) do
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
+  create_table "authentications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_authentications_on_user_id"
+  end
+
   create_table "bookmarks", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "coordinate_id", null: false
@@ -112,8 +122,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_14_113718) do
     t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "crypted_password", null: false
-    t.string "salt", null: false
+    t.string "crypted_password"
+    t.string "salt"
     t.string "reset_password_token"
     t.datetime "reset_password_token_expires_at"
     t.datetime "reset_password_email_sent_at"
@@ -128,6 +138,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_14_113718) do
   add_foreign_key "answers", "options"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "authentications", "users"
   add_foreign_key "bookmarks", "coordinates"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "coordinate_options", "coordinates"
