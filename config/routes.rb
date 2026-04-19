@@ -28,4 +28,9 @@ Rails.application.routes.draw do
   resources :coordinates, only: %i[index show]
 
   resources :bookmarks, only: %i[index create destroy]
+
+  post 'oauth/:provider', to: 'oauths#oauth', as: :auth_at_provider
+  get 'oauth/callback', to: 'oauths#callback'
+  post 'oauth/callback', to: 'oauths#callback'
+  get 'oauth/:provider', to: 'oauths#oauth'
 end

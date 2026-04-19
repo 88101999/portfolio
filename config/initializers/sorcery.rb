@@ -1,29 +1,45 @@
 # The first thing you need to configure is which modules you need in your app.
-# The default is nothing which will include only core features (password encryption, login/logout).
-#
-# Available submodules are: :user_activation, :http_basic_auth, :remember_me,
-# :reset_password, :session_timeout, :brute_force_protection, :activity_logging,
-# :magic_login, :external
-Rails.application.config.sorcery.submodules = [:reset_password]
+Rails.application.config.sorcery.submodules = [:reset_password, :external]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
+  # -- external --
+  config.external_providers = [:google]
+
+  config.google.key = ENV['GOOGLE_CLIENT_ID']
+  config.google.secret = ENV['GOOGLE_CLIENT_SECRET']
+  
+  config.google.callback_url = if Rails.env.production?
+    "https://portfolio-kvvz.onrender.com/oauth/callback?provider=google"
+  else
+    "http://localhost:3000/oauth/callback?provider=google"
+  end
+  
+  config.google.user_info_mapping = {
+    email: 'email',
+    name: 'name'
+  }
+  
+  config.google.scope = "email profile"
+  config.google.user_info_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+
   # --- user config ---
   config.user_config do |user|
     # -- core --
-    # How many times to apply encryption to the password.
-    # Default: 1 in test env, `nil` otherwise
     user.stretches = 1 if Rails.env.test?
 
     # -- reset_password --
-    # REQUIRED:
-    # Password reset mailer class.
     user.reset_password_mailer = UserMailer
     user.reset_password_email_method_name = :reset_password_email
     user.reset_password_expiration_period = 3600
+
+    # -- external --
+    user.authentications_class = Authentication
   end
 
-  # This line must come after the 'user config' block.
-  # Define which model authenticates with sorcery.
   config.user_class = "User"
 end
+
+# OmniAuth の設定
+OmniAuth.config.allowed_request_methods = [:post, :get]
+OmniAuth.config.silence_get_warning = true
