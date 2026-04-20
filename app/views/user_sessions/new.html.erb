@@ -12,6 +12,10 @@
           <%= f.label :password, class: "form-label" %>
           <%= f.password_field :password, class: "form-control" %>
         </div>
+        <div class="form-check mb-3">
+          <%= f.check_box :remember, { checked: true,  class: 'form-check-input', id: 'remember'}, 'true', 'false' %>
+          <%= f.label :remember, '次回から自動的にログインする', class: 'form-check-label' %>
+        </div>
         <%= f.submit "ログイン", class: "btn btn-primary w-100" %>
       <% end %>
 

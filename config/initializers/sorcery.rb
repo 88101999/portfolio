@@ -1,5 +1,5 @@
 # The first thing you need to configure is which modules you need in your app.
-Rails.application.config.sorcery.submodules = [:reset_password, :external]
+Rails.application.config.sorcery.submodules = [:reset_password, :external, :remember_me]
 
 # Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
@@ -28,6 +28,8 @@ Rails.application.config.sorcery.configure do |config|
     # -- core --
     user.stretches = 1 if Rails.env.test?
 
+    # -- remember_me --
+    user.remember_me_for = 604800
     # -- reset_password --
     user.reset_password_mailer = UserMailer
     user.reset_password_email_method_name = :reset_password_email
