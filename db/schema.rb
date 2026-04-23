@@ -116,7 +116,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order", null: false
-    t.index ["order"], name: "index_questions_on_order"
   end
 
   create_table "users", force: :cascade do |t|
