@@ -1,0 +1,9 @@
+<div class="progress mb-4" style="height: 30px;">
+  <div class="progress-bar" role="progressbar" 
+       style="width: <%= (step.to_f / total_steps * 100).round %>%;" 
+       aria-valuenow="<%= step %>" 
+       aria-valuemin="0" 
+       aria-valuemax="<%= total_steps %>">
+    <%= step %> / <%= total_steps %>
+  </div>
+</div>

@@ -13,19 +13,23 @@ require 'open-uri'
 questions_data = [
   {
     text: "コーディネートのタイプを選んでください",
-    options: ["メンズ系", "レディース系"]
+    options: ["メンズ系", "レディース系"],
+    order: 1
   },
   {
     text: "どの季節に着たいですか?",
-    options: ["春", "夏", "秋", "冬"]
+    options: ["春", "夏", "秋", "冬"],
+    order: 2
   },
   {
     text: "どんなときに着たいですか?",
-    options: ["仕事、学校", "休日のお出かけ", "特別な日(デート、イベントなど)"]
+    options: ["仕事、学校", "休日のお出かけ", "特別な日(デート、イベントなど)"],
+    order: 3
   },
   {
     text: "好みに近いスタイルを選んでください",
-    options: ["カジュアル系", "キレイ目系", "ストリート系"]
+    options: ["カジュアル系", "キレイ目系", "ストリート系"],
+    order: 4
   }
 ]
 
@@ -501,7 +505,9 @@ Question.destroy_all
 puts "✅ クリア完了！"
 
 questions_data.each do |data|
-  question = Question.find_or_create_by!(text: data[:text])
+  question = Question.find_or_create_by!(text: data[:text]) do |q|
+    q.order = data [:order]
+  end
 
   data[:options].each do |option_name|
     option = Option.find_or_create_by!(name: option_name, question: question)

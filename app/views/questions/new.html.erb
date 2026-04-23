@@ -1,17 +1,26 @@
+<%# 
+  このフォームはステップフォーム形式に移行しました
+  新しいフォームは diagnoses/show_step.html.erb を使用しています
+  
+  移行が完了し、問題がないことを確認したら、このファイルは削除予定です
+%>
+
+<%# 
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-auto">
       <h1>あなたに合うコーディネート診断</h1>
-      <%= form_with url: answers_path, method: :post, local: true do |f| %>
+      <%= form_with url: answers_path, method: :post, local: true do |f| % >
         <div class="mb-3">
-        <% @questions.each do |question| %>
-          <p><%= question.text %></p>
+        <% @questions.each do |question| % >
+          <p><%= question.text % ></p>
             <%= select_tag "question_#{question.id}",
-                                      options_for_select(question.options.map { |opt| [opt.name, opt.id] }) %>
-            <% end %>
+                                      options_for_select(question.options.map { |opt| [opt.name, opt.id] }) % >
+            <% end % >
         </div>
-          <%= f.submit "コーディネートを見る", class: "btn btn-primary" %>
-        <% end %>
+          <%= f.submit "コーディネートを見る", class: "btn btn-primary" % >
+        <% end % >
     </div>
   </div>
 </div>
+%>

@@ -1,0 +1,42 @@
+<% content_for :body_class, 'diagnoses-page' %>
+
+<div class="diagnoses-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-lg-6 mx-auto">
+        <div class="diagnoses-card">
+          <%= render 'progress_bar', step: @step, total_steps: Question.count %>
+
+          <h2 class="diagnoses-title"><%= @question.text %></h2>
+
+          <%= form_with url: update_step_diagnoses_path(step: @step), method: :post, local: true do |f| %>
+            <%= f.hidden_field :step, value: @step %>
+
+            <div class="mb-4">
+              <% @question.options.each do |option| %>
+                <label class="diagnoses-option">
+                  <%= f.radio_button :option_id, option.id, class: 'd-none', checked: @current_answer == option.id.to_s %>
+                  <span><%= option.name %></span>
+                </label>
+              <% end %>
+            </div>
+
+            <div class="d-flex justify-content-between mt-5">
+              <% if @step > 1 %>
+                <%= link_to "前の質問へ戻る", step_diagnoses_path(step: @step - 1), class: "diagnoses-button-back" %>
+              <% else %>
+                <div></div>
+              <% end %>
+              
+              <% if @step < Question.count %>
+                <%= f.submit "次へ", class: "diagnoses-button" %>
+              <% else %>
+                <%= f.submit "コーディネートを見る", class: "diagnoses-button" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

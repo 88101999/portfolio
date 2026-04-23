@@ -3,7 +3,7 @@ class CoordinatesController < ApplicationController
     @answer_log = current_user.answer_logs.order(created_at: :desc).first
   
     if @answer_log.nil?
-      redirect_to new_question_path, alert: "質問ページから回答の登録を行ってください"
+      redirect_to step_diagnoses_path(step: 1), alert: "質問ページから回答の登録を行ってください"
       return
     end
   
@@ -11,7 +11,7 @@ class CoordinatesController < ApplicationController
     @coordinates = Coordinate.search_by_options(selected_option_ids)
   
     if @coordinates.blank?
-      redirect_to new_question_path, alert: "該当するコーディネートが見つかりませんでした"
+      redirect_to step_diagnoses_path(step: 1), alert: "該当するコーディネートが見つかりませんでした"
       return
     end
   

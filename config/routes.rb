@@ -21,13 +21,20 @@ Rails.application.routes.draw do
   delete 'logout', to: 'user_sessions#destroy'
 
   resources :password_resets, only: %i[new create edit update]
-  resources :questions, only: %i[new]
-  resources :answers, only: %i[create]
+  # resources :questions, only: %i[new]
+  # resources :answers, only: %i[create]
   get 'coordinates', to: 'coordinates#index'
 
-  resources :coordinates, only: %i[index show]
-
   resources :bookmarks, only: %i[index create destroy]
+
+  resources :diagnoses, only: [] do
+    collection do
+      get 'step/:step', to: 'diagnoses#show_step', as: :step
+      post 'step/:step', to: 'diagnoses#update_step', as: :update_step
+    end
+  end
+
+  resources :coordinates, only: %i[index show]
 
   post 'oauth/:provider', to: 'oauths#oauth', as: :auth_at_provider
   get 'oauth/callback', to: 'oauths#callback'
