@@ -1,3 +1,9 @@
 <%= turbo_stream.replace "bookmark-button-#{@coordinate.id}" do %>
   <%= render 'bookmarks/bookmark_button', coordinate: @coordinate %>
 <% end %>
+
+<%= turbo_stream.prepend "flash_messages" do %>
+  <div class="alert alert-success">
+    お気に入りに追加しました
+  </div>
+<% end %>
