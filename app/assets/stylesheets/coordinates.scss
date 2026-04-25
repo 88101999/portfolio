@@ -1,17 +1,99 @@
-.coordinate-image {
-  width: 100%;
-  max-height: 250px;
-  object-fit: contain;
+.card.coordinate-card {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #dee2e6;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-img-top {
+    height: 600px;
+    object-fit: cover;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
-.card {
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+.modal {
+  .modal-dialog {
+    max-width: 900px;
+  }
 
-.card-body {
-  padding: 20px;
+  .modal-body {
+    h6 {
+      font-weight: bold;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 0.3rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .img-fluid {
+      max-height: none;
+      height: auto;
+      object-fit: contain;
+      width: 100%;
+    }
+
+    .ai-explanation {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #007bff;
+    }
+
+    .alert.error-message {
+      opacity: 1 !important;
+      transition: none !important;
+      display: block !important;
+      visibility: visible !important;
+    }
+
+    .coordinate-error-box {
+      background-color: #fff3cd;
+      border: 1px solid #ffc107;
+      border-left: 4px solid #ffc107;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: flex !important;
+      animation: none !important;
+      transition: none !important;
+
+      .error-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        line-height: 1;
+      }
+
+      .error-content {
+        flex: 1;
+        color: #856404;
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+    }
+  }
 }

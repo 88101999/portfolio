@@ -15,24 +15,27 @@ class CoordinatesController < ApplicationController
       return
     end
   
-    if @answer_log.coordinate.nil?
-      @answer_log.update!(coordinate: @coordinates.first)
+    @coordinates.each do |coordinate|
+      coordinate.update!(answer_log: @answer_log) if coordinate.answer_log.nil?
     end
   
-    if @answer_log.ai_explanation.blank?
-      begin
-        user_answers = format_user_answers(@answer_log)
-        coordinate = @coordinates.first
-        ip_address = get_real_client_ip
-      
-        service = CoordinateRecommendationService.new(user_answers, coordinate, ip_address)
-        @answer_log.ai_explanation = service.call
-        @answer_log.save!
-      rescue CoordinateRecommendationService::RateLimitExceededError => e
-        @ai_explanation_error = e.message
-      rescue StandardError => e
-        Rails.logger.error("AI explanation error: #{e.message}")
-        @ai_explanation_error = "AIによる説明の生成に失敗しました。"
+    user_answers = format_user_answers(@answer_log)
+    ip_address = get_real_client_ip
+
+    @coordinates.each do |coordinate|
+      if coordinate.ai_explanation.blank?
+        begin
+          service = CoordinateRecommendationService.new(user_answers, coordinate, ip_address)
+          coordinate.ai_explanation = service.call
+          coordinate.save!
+        rescue CoordinateRecommendationService::RateLimitExceededError => e
+          coordinate.ai_explanation_error = e.message
+          coordinate.save!
+        rescue StandardError => e
+          Rails.logger.error("AI explanation error for coordinate #{coordinate.id}: #{e.message}")
+          coordinate.ai_explanation_error = "AIによる説明の生成に失敗しました。"
+          coordinate.save!
+        end
       end
     end
   end
@@ -42,7 +45,7 @@ class CoordinatesController < ApplicationController
     @answer_log = current_user.answer_logs.order(created_at: :desc).first
     @ai_explanation_error = nil
 
-    if @answer_log&.ai_explanation.blank?
+    if @coordinate.ai_explanation.blank?
       @ai_explanation_error = "このコーディネートのAI解説は、コーディネート提案ページからご覧いただけます。"
     end
   end

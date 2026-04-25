@@ -1,40 +1,82 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-auto">
-      <h1 class="text-center mb-4">おすすめのコーディネート</h1>
-      <% @coordinates.each do |coordinate| %>
-        <div class="card mb-4 shadow-sm">
-          <%# 画像が添付されている場合のみ表示 %>
-          <% if coordinate.image.attached? %>
-            <%= image_tag coordinate.image, alt: coordinate.name, class: "card-img-top coordinate-image" %>
-          <% end %>
-          
-          <div class="card-body">
-            <h5 class="card-title"><%= coordinate.name %></h5>
-            <p class="card-text"><%= coordinate.description %></p>
+  <h1 class="text-center mb-4">おすすめのコーディネート</h1>
 
-            <div class="ai-explanation">
-              <h4>【AIがこのコーディネートを解説します!】</h4>
-              <% if @ai_explanation_error.present? %>
-                <!-- エラーメッセージを表示 -->
-                <div class="alert alert-warning" role="alert">
-                  <%= @ai_explanation_error %>
-                </div>
-              <% elsif @answer_log.ai_explanation.present? %>
-                <!-- AI解説を表示 -->
-                <p><%= simple_format(@answer_log.ai_explanation) %></p>
-              <% else %>
-                <!-- AI解説がまだ生成されていない場合のメッセージ -->
-                <p>AIによる解説を生成中です。しばらくお待ちください...</p>
-              <% end %>
+  <div class="row">
+    <% if @coordinates.present? %>
+      <% @coordinates.each do |coordinate| %>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 coordinate-card" data-bs-toggle="modal" data-bs-target="#coordinateModal<%= coordinate.id %>">
+            <% if coordinate.image.attached? %>
+              <%= image_tag coordinate.image, class: "card-img-top", alt: coordinate.name %>
+            <% else %>
+              <!-- 画像がない場合のプレースホルダー -->
+              <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                <span class="text-white">画像なし</span>
+              </div>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title"><%= coordinate.name %></h5>
             </div>
-            
-            <div class="mt-3">
-              <%= render 'bookmarks/bookmark_button', coordinate: coordinate %>
+          </div>
+        </div>
+
+        <!-- モーダル -->
+        <div class="modal fade" id="coordinateModal<%= coordinate.id %>" tabindex="-1" aria-labelledby="coordinateModalLabel<%= coordinate.id %>" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="coordinateModalLabel<%= coordinate.id %>"><%= coordinate.name %></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <% if coordinate.image.attached? %>
+                      <%= image_tag coordinate.image, class: "img-fluid rounded", alt: coordinate.name %>
+                    <% else %>
+                      <div class="bg-secondary d-flex align-items-center justify-content-center rounded" style="height: 300px;">
+                        <span class="text-white">画像なし</span>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="col-md-6">
+                    <h6>説明</h6>
+                    <p><%= simple_format(coordinate.description) %></p>
+        
+                    <!-- AIのコーディネート解説 -->
+                    <div class="ai-explanation mt-4">
+                      <h6>【AIがこのコーディネートを解説します!】</h6>
+                      <% if coordinate.ai_explanation_error.present? %>
+                        <div class="coordinate-error-box">
+                          <div class="error-icon">🙇‍♂️</div>
+                          <div class="error-content">
+                            <%= coordinate.ai_explanation_error %>
+                          </div>
+                        </div>
+                      <% elsif coordinate.ai_explanation.present? %>
+                        <div class="ai-explanation-content">
+                          <p><%= simple_format(coordinate.ai_explanation) %></p>
+                        </div>
+                      <% else %>
+                        <p class="text-muted">AIによる解説を生成中です。しばらくお待ちください...</p>
+                      <% end %>
+                    </div>
+          
+                    <!-- お気に入りボタン -->
+                    <div class="mt-4" id="bookmark-button-<%= coordinate.id %>">
+                      <%= render 'bookmarks/bookmark_button', coordinate: coordinate %>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       <% end %>
-    </div>
+    <% else %>
+      <div class="col-12">
+        <p class="text-center text-muted">コーディネートがありません</p>
+      </div>
+    <% end %>
   </div>
 </div>

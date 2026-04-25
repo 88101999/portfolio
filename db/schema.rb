@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_25_094002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "ai_explanation"
-    t.integer "coordinate_id"
     t.index ["user_id"], name: "index_answer_logs_on_user_id"
   end
 
@@ -99,6 +98,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "image_url"
+    t.bigint "answer_log_id"
+    t.text "ai_explanation"
+    t.text "ai_explanation_error"
+    t.index ["answer_log_id"], name: "index_coordinates_on_answer_log_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -116,6 +119,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order", null: false
+    t.index ["order"], name: "index_questions_on_order"
   end
 
   create_table "users", force: :cascade do |t|
@@ -147,5 +151,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_23_074931) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "coordinate_options", "coordinates"
   add_foreign_key "coordinate_options", "options"
+  add_foreign_key "coordinates", "answer_logs"
   add_foreign_key "options", "questions"
 end
