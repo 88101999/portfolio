@@ -1,0 +1,65 @@
+<div class="modal fade" id="coordinateModal<%= coordinate.id %>" tabindex="-1" aria-labelledby="coordinateModalLabel<%= coordinate.id %>" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="coordinateModalLabel<%= coordinate.id %>"><%= coordinate.name %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <% if coordinate.image.attached? %>
+              <%= image_tag coordinate.image, class: "img-fluid rounded", alt: coordinate.name %>
+            <% else %>
+              <div class="bg-secondary d-flex align-items-center justify-content-center rounded" style="height: 300px;">
+                <span class="text-white">画像なし</span>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-md-6">
+            <h6>説明</h6>
+            <p><%= simple_format(coordinate.description) %></p>
+
+            <!-- AIのコーディネート解説 -->
+            <div class="ai-explanation mt-4">
+              <h6>【AIがこのコーディネートを解説します!】</h6>
+              <% if coordinate.ai_explanation_error.present? %>
+                <div class="coordinate-error-box">
+                  <div class="error-icon">🙇‍♂️</div>
+                  <div class="error-content">
+                    <%= coordinate.ai_explanation_error %>
+                  </div>
+                </div>
+              <% elsif coordinate.ai_explanation.present? %>
+                <div class="ai-explanation-content">
+                  <p><%= simple_format(coordinate.ai_explanation) %></p>
+                </div>
+              <% else %>
+                <p class="text-muted">AIによる解説を生成中です。しばらくお待ちください...</p>
+              <% end %>
+            </div>
+
+            <!-- お気に入りボタン -->
+            <% unless local_assigns[:bookmark].present? %>
+              <div class="mt-4" id="bookmark-button-<%= coordinate.id %>">
+                <%= render 'bookmarks/bookmark_button', coordinate: coordinate %>
+              </div>
+            <% end %>  
+          </div>
+        </div>
+      </div>
+
+      <!-- お気に入りページでのみ表示 -->
+      <% if local_assigns[:bookmark].present? %>
+          <div class="modal-footer">
+            <%= button_to "お気に入りから削除",
+                          bookmark_path(bookmark),
+                          method: :delete,
+                          class: "btn btn-danger",
+                          form: {data: { turbo_confirm: "#{coordinate.name}をお気に入りから削除しますか？" } } %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

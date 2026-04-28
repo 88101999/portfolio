@@ -1,0 +1,54 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      question: 質問
+      option: 選択肢
+      coordinate: コーディネート
+      answer_log: 回答履歴
+      answer: 回答
+      bookmark: ブックマーク
+      authentication: 認証情報
+
+    attributes:
+
+      created_at: 作成日時
+      updated_at: 更新日時
+      
+      user:
+        name: ユーザーネーム
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+      
+      question:
+        text: 質問
+        sort_order: 表示順序
+        order: 順序
+      
+      option:
+        name: 選択肢
+        sort_order: 表示順序
+        question: 質問
+      
+      coordinate:
+        name: コーディネート名
+        description: 説明
+        image_url: コーディネート画像
+        ai_explanation: AI解説
+        ai_explanation_error: AI解説のエラー
+        answer_log: 回答履歴
+      
+      answer_log:
+        user: ユーザー
+        ai_explanation: AI解説
+      
+      answer:
+        user: ユーザー
+        question: 質問
+        option: 選択肢
+        answer_log: 回答履歴
+      
+      bookmark:
+        user: ユーザー
+        coordinate: コーディネート

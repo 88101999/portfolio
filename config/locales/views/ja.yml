@@ -1,0 +1,21 @@
+ja:
+  helpers:
+    label:
+      email: メールアドレス
+      password: パスワード
+      remember: 次回から自動的にログインする
+    submit:
+      create: 登録
+      submit: 保存
+      update: 更新
+  
+  user_sessions:
+    new:
+      title: ログイン
+      login: ログイン
+      google_login: Googleでログイン
+      or: または
+      password_forget: パスワードをお忘れの方はこちら
+      first_time_title: 初めてご利用の方
+      first_time_text: ご利用にはユーザー登録が必要です。
+      to_register: 新規登録

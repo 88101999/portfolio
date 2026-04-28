@@ -22,48 +22,7 @@
                 </div>
               </div>
 
-              <!-- モーダル -->
-              <div class="modal fade" id="coordinateModal<%= coordinate.id %>" tabindex="-1"
-                   aria-labelledby="coordinateModalLabel<%= coordinate.id %>" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="coordinateModalLabel<%= coordinate.id %>">
-                        <%= coordinate.name %>
-                      </h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <% if coordinate.image.attached? %>
-                        <%= image_tag coordinate.image, alt: coordinate.name, class: "img-fluid mb-3" %>
-                      <% end %>
-                      <h6>説明</h6>
-                      <p><%= coordinate.description %></p>
-
-                    <div class="ai-explanation mt-4">
-                      <h6>【AIがこのコーディネートを解説します!】</h6>
-                      <% if coordinate.answer_log.present? && coordinate.answer_log.ai_explanation.present? %>
-                        <!-- AI解説を表示 -->
-                        <p><%= simple_format(coordinate.answer_log.ai_explanation) %></p>
-                      <% else %>
-                        <!-- AI解説がまだ生成されていない場合のメッセージ -->
-                        <p>AIによる解説を生成中です。しばらくお待ちください...</p>
-                      <% end %>
-                    </div>
-                  </div>
-
-                    <div class="modal-footer">
-                      <!-- 削除ボタン -->
-                      <%= button_to "お気に入りから削除",
-                                    bookmark_path(bookmark),
-                                    method: :delete,
-                                    class: "btn btn-danger",
-                                    form: {data: { turbo_confirm: "#{coordinate.name}をお気に入りから削除しますか?" } } %>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <%= render 'coordinates/modal', coordinate: coordinate, bookmark: bookmark %>
             <% end %>
           </div>
         <% else %>
