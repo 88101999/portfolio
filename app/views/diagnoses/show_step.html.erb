@@ -9,7 +9,7 @@
 
           <h2 class="diagnoses-title"><%= @question.text %></h2>
 
-          <%= form_with url: update_step_diagnoses_path(step: @step), method: :post, local: true do |f| %>
+          <%= form_with url: update_step_diagnoses_path(step: @step), method: :post do |f| %>
             <%= f.hidden_field :step, value: @step %>
 
             <div class="mb-4">
@@ -31,10 +31,21 @@
               <% if @step < Question.count %>
                 <%= f.submit "次へ", class: "diagnoses-button" %>
               <% else %>
-                <%= f.submit "コーディネートを見る", class: "diagnoses-button" %>
+                <%= f.submit "コーディネートを見る", class: "diagnoses-button", data: { final: true } %>
               <% end %>
             </div>
           <% end %>
+
+          <div id="loading-indicator"
+               class="hidden">
+            <div class="text-center">
+              <%= image_tag "undraw_shopping_a55o.svg",
+                  alt: "診断中",
+                  class: "loading-image" %>
+              <p class="text-gray-700 text-xl font-medium mb-2 loading-text">診断中...</p>
+              <p class="text-gray-500 loading-text">コーディネートを探しています</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

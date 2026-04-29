@@ -23,8 +23,11 @@ class DiagnosesController < ApplicationController
     total_steps = Question.count
 
     if @step < total_steps
-      redirect_to step_diagnoses_path(step: @step + 1)
+      redirect_to step_diagnoses_path(step: @step + 1), status: :see_other
     else
+      # デバッグ用の遅延
+      sleep 2 if Rails.env.development?
+      
       # 全ての質問に回答したらAnswerLogとAnswersを作成
       save_answers_to_database
       redirect_to coordinates_path
