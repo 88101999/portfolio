@@ -1,3 +1,27 @@
+.navbar {
+  min-height: 70px;
+  max-height: 70px;
+  padding: 0.5rem 1rem;
+
+  .navbar-brand {
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 50px;
+      width: auto;
+      max-height: none;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
 .background-wrapper {
   background-image: asset-url('background.jpg');
   background-position: center;
@@ -117,5 +141,17 @@
       transform: scale(1.05);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    min-height: 50px;
+    max-height: 50px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .navbar-brand img {
+    height: 40px;
   }
 }
