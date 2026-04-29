@@ -21,6 +21,46 @@
       }
     }
   }
+
+  // スマホ用(768px以下)
+  @media (max-width: 768px) {
+    min-height: 50px;
+    max-height: 50px;
+    padding: 0.5rem 0.75rem;
+
+    .navbar-brand {
+      img {
+        height: 35px; 
+      }
+    }
+
+    .navbar-collapse {
+      background-color: #f8f9fa;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+
+      .navbar-nav {
+        .nav-item {
+          text-align: center;
+          margin: 5px 0;
+
+          .nav-link {
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  // タブレット用(768px〜991px)
+  @media (min-width: 768px) and (max-width: 991px) {
+    .navbar-brand {
+      img {
+        height: 45px;
+      }
+    }
+  }
 }
 .background-wrapper {
   background-image: asset-url('background.jpg');
@@ -28,11 +68,20 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+
+  @media (max-width: 767px) {
+    background-attachment: scroll;
+  }
 }
 
 .top-wrapper {
   height: calc(100vh - 134px);
   position: relative;
+
+  @media (max-width: 767px) {
+    height: calc(100vh - 120px);
+    padding: 15px;
+  }
 
   .top-inner-text {
     position: absolute;
@@ -144,14 +193,3 @@
   }
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    min-height: 50px;
-    max-height: 50px;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .navbar-brand img {
-    height: 40px;
-  }
-}
