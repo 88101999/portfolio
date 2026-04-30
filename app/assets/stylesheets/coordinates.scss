@@ -11,6 +11,10 @@
   .card-img-top {
     height: 600px;
     object-fit: cover;
+
+    @media (max-width: 768px) {
+      height: 300px;
+    }
   }
 
   .card-title {
@@ -29,6 +33,13 @@
   }
 
   .modal-body {
+    @media (max-width: 768px) {
+      .row > [class*="col-"] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+      }
+    }
     h6 {
       font-weight: bold;
       margin-top: 1rem;
@@ -93,6 +104,18 @@
         color: #856404;
         line-height: 1.6;
         font-size: 0.95rem;
+      }
+    }
+  }
+
+  .modal-footer {
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .btn {
+        width: 100%;
+        margin: 0
       }
     }
   }

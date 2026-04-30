@@ -140,3 +140,55 @@
     opacity: 0.5;
   }
 }
+
+@media (max-width: 768px) {
+  .diagnoses-container {
+    padding: 30px 0;
+  }
+
+  .diagnoses-card {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .diagnoses-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .diagnoses-option {
+    padding: 16px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .diagnoses-button {
+    padding: 12px 24px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .diagnoses-button-back {
+    padding: 12px 16px;
+    font-size: 13px;
+    
+    &::before {
+      content: "← 戻る";
+    }
+    
+    font-size: 0;
+    
+    &::before {
+      font-size: 13px;
+    }
+  }
+
+  .d-flex.justify-content-between {
+    gap: 8px;
+  }
+
+  .progress {
+    height: 24px !important;
+    font-size: 12px;
+  }
+}
