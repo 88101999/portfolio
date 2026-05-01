@@ -3,6 +3,19 @@
   <head>
     <title>Coordia</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- OGPタグ -->
+    <meta property="og:title" content="Coordia">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= image_url('Coordia_OGP.png') %>">
+    <meta property="og:site_name" content="Coordia">
+
+    <!-- X(Twitter)カード -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Coordia">
+    <meta name="twitter:image" content="<%= image_url('Coordia_OGP.png') %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application" %>
