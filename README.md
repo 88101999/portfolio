@@ -22,7 +22,7 @@
 
 ## サービスの利用イメージ
 1.ユーザー登録、ログインを行う
-2.いくつかの質問に回答する(回答はプルダウン形式)
+2.いくつかの質問に回答する
 3.回答に基づいたコーディネートが表示される
 4.気に入ったものがあればお気に入り登録
 
@@ -112,8 +112,8 @@ https://www.figma.com/design/XzJpkPYqGAfu7lAaBdDetl/%E7%94%BB%E9%9D%A2%E9%81%B7%
 - Ruby on Rails 7.2.3
 
 ### フロントエンド
-- Hotwire(Turbo, Stimulus)
-- TailwindCSS
+- Hotwire(Turbo)
+- Bootstrap
 
 ### データベース
 - PostgreSQL
