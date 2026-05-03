@@ -10,9 +10,9 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :password, length: { minimum: 3 }, if: -> { new_record? && crypted_password.blank?}
-  validates :password, confirmation: true, if: -> { password.present? }
-  validates :password_confirmation, presence: true, if: -> { password.present? }
+  validates :password, presence: true, length: { minimum: 3 }, if: :password_required?
+  validates :password, confirmation: true, if: :password_required?
+  validates :password_confirmation, presence: true, if: :password_required?
   validates :reset_password_token, uniqueness: true, allow_nil: true
 
   def bookmark(coordinate)
@@ -25,5 +25,11 @@ class User < ApplicationRecord
 
   def bookmarked?(coordinate)
     bookmarked_coordinates.include?(coordinate)
+  end
+
+  private
+
+  def password_required?
+    new_record? || password.present?
   end
 end
