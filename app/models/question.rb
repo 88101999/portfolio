@@ -5,3 +5,4 @@ class Question < ApplicationRecord
   validates :text, presence: true
   # validates :options, length: { minimum: 2 }
 end
+
