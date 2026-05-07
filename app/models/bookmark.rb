@@ -4,3 +4,4 @@ class Bookmark < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: :coordinate_id }
 end
+
