@@ -46,6 +46,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    ports:
+      - "4444:4444"
+      
 volumes:
   db_data:
   bundle_data:
