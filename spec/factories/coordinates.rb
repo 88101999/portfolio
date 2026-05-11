@@ -4,8 +4,6 @@ FactoryBot.define do
     description { "Tシャツ+デニムパンツ+スニーカー" }
     image_url { "https://example.com/image.png" }
 
-    association :answer_log
-
     # Option との関連付け
     trait :with_options do
       after(:create) do |coordinate|

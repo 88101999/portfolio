@@ -98,9 +98,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_25_094002) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "image_url"
-    t.bigint "answer_log_id"
     t.text "ai_explanation"
     t.text "ai_explanation_error"
+    t.bigint "answer_log_id"
     t.index ["answer_log_id"], name: "index_coordinates_on_answer_log_id"
   end
 
@@ -119,7 +119,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_25_094002) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order", null: false
-    t.index ["order"], name: "index_questions_on_order"
   end
 
   create_table "users", force: :cascade do |t|

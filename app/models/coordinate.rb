@@ -1,7 +1,7 @@
 class Coordinate < ApplicationRecord
   has_many :coordinate_options, inverse_of: :coordinate, dependent: :destroy
   has_many :options, through: :coordinate_options
-  belongs_to :answer_log, dependent: :destroy
+  has_many :answer_logs, dependent: :nullify
   has_one_attached :image
 
   accepts_nested_attributes_for :coordinate_options

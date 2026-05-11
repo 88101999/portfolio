@@ -15,10 +15,6 @@ class CoordinatesController < ApplicationController
       return
     end
   
-    @coordinates.each do |coordinate|
-      coordinate.update!(answer_log: @answer_log) if coordinate.answer_log.nil?
-    end
-  
     user_answers = format_user_answers(@answer_log)
     ip_address = get_real_client_ip
 
