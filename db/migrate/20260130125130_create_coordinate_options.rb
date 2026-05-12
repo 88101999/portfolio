@@ -7,6 +7,6 @@ class CreateCoordinateOptions < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :coordinate_options, [:coordinate_id, :option_id], unique: true
+    add_index :coordinate_options, [ :coordinate_id, :option_id ], unique: true
   end
 end

@@ -348,6 +348,9 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    rubocop-rspec (3.9.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.81)
     ruby-openai (8.3.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -442,7 +445,10 @@ DEPENDENCIES
   rails-i18n (~> 7.0.0)
   redis
   rspec-rails
+  rubocop
+  rubocop-rails
   rubocop-rails-omakase
+  rubocop-rspec
   ruby-openai
   sassc-rails
   selenium-webdriver

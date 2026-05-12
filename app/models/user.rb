@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :answers
   has_many :answer_logs
   has_many :bookmarks, dependent: :destroy
-  has_many :bookmarked_coordinates, through: :bookmarks, source: :coordinate 
+  has_many :bookmarked_coordinates, through: :bookmarks, source: :coordinate
   has_many :authentications, dependent: :destroy
   accepts_nested_attributes_for :authentications
 

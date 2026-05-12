@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "ログインとログアウト", type: :system do
-  let(:user) {create(:user) }
+  let(:user) { create(:user) }
 
   before do
     page.driver.browser.manage.window.resize_to(1920, 1080)
@@ -30,9 +30,9 @@ RSpec.describe "ログインとログアウト", type: :system do
       expect(current_path).to eq root_path
 
       visit root_path
-      
+
       click_link 'ログアウト'
-    
+
       expect(page).to have_content 'ログアウトしました'
       expect(current_path).to eq root_path
     end

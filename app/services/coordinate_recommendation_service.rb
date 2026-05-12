@@ -5,13 +5,13 @@ class CoordinateRecommendationService
   def initialize(user_answers, coordinate, ip_address)
     @user_answers = user_answers
     @coordinate = coordinate
-    @ip_address = ip_address || 'unknown'
+    @ip_address = ip_address || "unknown"
     @client = OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
   end
 
   def call
     check_rate_limit!
-     
+
     begin
       response = @client.chat(
         parameters: {
@@ -61,13 +61,13 @@ class CoordinateRecommendationService
 
   # REDISのキーを生成(IPアドレス+日付)
   def rate_limit_key
-    date = Time.current.in_time_zone('Asia/Tokyo').strftime('%Y-%m-%d')
+    date = Time.current.in_time_zone("Asia/Tokyo").strftime("%Y-%m-%d")
     "rate_limit:#{@ip_address}:#{date}"
   end
 
   # 午前0時までの秒数を計算
   def seconds_until_midnight
-    now = Time.current.in_time_zone('Asia/Tokyo')
+    now = Time.current.in_time_zone("Asia/Tokyo")
     midnight = now.tomorrow.beginning_of_day
     (midnight - now).to_i
   end
@@ -82,11 +82,11 @@ class CoordinateRecommendationService
     coordinate_info = "#{@coordinate.name}\n#{@coordinate.description}"
     [
       {
-        role: 'system',
-        content: 'あなたはファッションコーディネートの専門家です。'
+        role: "system",
+        content: "あなたはファッションコーディネートの専門家です。"
       },
       {
-        role: 'user',
+        role: "user",
         content:  build_prompt(coordinate_info)
       }
     ]
@@ -114,6 +114,6 @@ def build_prompt(coordinate_info)
   PROMPT
 end
   def parse_response(response)
-    response.dig('choices', 0, 'message', 'content')
+    response.dig("choices", 0, "message", "content")
   end
 end

@@ -21,7 +21,7 @@ Rails.application.configure do
   # config.require_master_key = true
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -97,16 +97,16 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
 
-  config.action_mailer.default_url_options = {host: 'portfolio-kvvz.onrender.com'}
+  config.action_mailer.default_url_options = { host: "portfolio-kvvz.onrender.com" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
+    address: "smtp.gmail.com",
     port: 587,
-    domain: 'gmail.com',
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_APP_PASSWORD'],
+    domain: "gmail.com",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_APP_PASSWORD"],
     authentication: :plain,
-    enable_starttls_auto: true 
+    enable_starttls_auto: true
   }
   config.active_storage.service = :cloudinary
   # Enable DNS rebinding protection and other `Host` header attacks.

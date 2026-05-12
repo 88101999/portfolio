@@ -7,7 +7,10 @@ RSpec.describe Bookmark, type: :model do
       expect(bookmark).to be_valid
     end
 
+    describe 'ユニーク制約' do
+      subject { build(:bookmark) }
       it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:coordinate_id) }
+    end
   end
 
   describe 'アソシエーションチェック' do

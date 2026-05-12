@@ -40,15 +40,15 @@ RSpec.describe "コーディネート提案", type: :system do
       expect(page).to have_content 'コーディネートのタイプを選んでください'
       find('label', text: 'メンズ系').click
       click_button '次へ'
-      
+
       expect(page).to have_content 'どの季節に着たいですか?'
       find('label', text: '春').click
       click_button '次へ'
-      
+
       expect(page).to have_content 'どんなときに着たいですか?'
       find('label', text: '休日のお出かけ').click
       click_button '次へ'
-      
+
       expect(page).to have_content '好みに近いスタイルを選んでください'
       find('label', text: 'カジュアル系').click
       click_button 'コーディネートを見る'
@@ -60,9 +60,9 @@ RSpec.describe "コーディネート提案", type: :system do
       expect(user.answer_logs.count).to eq 1
       answer_log = user.answer_logs.last
       expect(answer_log.answers.count).to eq 4
-      
+
       expect(answer_log.answers.pluck(:option_id)).to match_array(
-        Option.where(name: ['メンズ系', '春', '休日のお出かけ', 'カジュアル系']).pluck(:id)
+        Option.where(name: [ 'メンズ系', '春', '休日のお出かけ', 'カジュアル系' ]).pluck(:id)
       )
     end
   end
@@ -74,22 +74,22 @@ def create_questions_and_options
   questions_data = [
     {
       text: "コーディネートのタイプを選んでください",
-      options: ["メンズ系", "レディース系"],
+      options: [ "メンズ系", "レディース系" ],
       order: 1
     },
     {
       text: "どの季節に着たいですか?",
-      options: ["春", "夏", "秋", "冬"],
+      options: [ "春", "夏", "秋", "冬" ],
       order: 2
     },
     {
       text: "どんなときに着たいですか?",
-      options: ["仕事、学校", "休日のお出かけ", "特別な日(デート、イベントなど)"],
+      options: [ "仕事、学校", "休日のお出かけ", "特別な日(デート、イベントなど)" ],
       order: 3
     },
     {
       text: "好みに近いスタイルを選んでください",
-      options: ["カジュアル系", "キレイ目系", "ストリート系"],
+      options: [ "カジュアル系", "キレイ目系", "ストリート系" ],
       order: 4
     }
   ]

@@ -11,7 +11,7 @@ FactoryBot.define do
         option2 = Option.find_or_create_by(name: "春")
         option3 = Option.find_or_create_by(name: "休日のお出かけ")
         option4 = Option.find_or_create_by(name: "カジュアル系")
-        coordinate.options << [option1, option2, option3, option4]
+        coordinate.options << [ option1, option2, option3, option4 ]
       end
     end
   end

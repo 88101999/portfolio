@@ -1,5 +1,5 @@
 class DiagnosesController < ApplicationController
-  before_action :initialize_session, only: [:show_step, :update_step]
+  before_action :initialize_session, only: [ :show_step, :update_step ]
 
   # 各ステップの表示
   def show_step
@@ -14,7 +14,7 @@ class DiagnosesController < ApplicationController
     option_id = params[:option_id]
 
     if option_id.blank?
-      redirect_to step_diagnoses_path(step: @step), alert: '選択肢を選んでください'
+      redirect_to step_diagnoses_path(step: @step), alert: "選択肢を選んでください"
       return
     end
 
@@ -27,7 +27,7 @@ class DiagnosesController < ApplicationController
     else
       # デバッグ用の遅延
       sleep 2 if Rails.env.development?
-      
+
       # 全ての質問に回答したらAnswerLogとAnswersを作成
       save_answers_to_database
       redirect_to coordinates_path
