@@ -1,4 +1,6 @@
 class CoordinatesController < ApplicationController
+  before_action :require_login
+  
   def index
     @answer_log = current_user.answer_logs.order(created_at: :desc).first
   

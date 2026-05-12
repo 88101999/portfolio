@@ -5,7 +5,7 @@
     <% if @coordinates.present? %>
       <% @coordinates.each do |coordinate| %>
         <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 coordinate-card" data-bs-toggle="modal" data-bs-target="#coordinateModal<%= coordinate.id %>">
+          <div id="coordinate-card-<%= coordinate.id %>" class="card h-100 coordinate-card" data-bs-toggle="modal" data-bs-target="#coordinateModal<%= coordinate.id %>">
             <% if coordinate.image.attached? %>
               <%= image_tag coordinate.image, class: "card-img-top", alt: coordinate.name %>
             <% else %>

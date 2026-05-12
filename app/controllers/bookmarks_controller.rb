@@ -1,5 +1,6 @@
 class BookmarksController < ApplicationController
   before_action :require_login
+  
   def index
     @bookmarks = current_user.bookmarks.includes(:coordinate).order(created_at: :desc)
   end

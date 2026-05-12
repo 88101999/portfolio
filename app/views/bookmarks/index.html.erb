@@ -8,9 +8,11 @@
           <div class="row">
             <% @bookmarks.each do |bookmark| %>
               <% coordinate = bookmark.coordinate %>
-              <div class="col-md-6 col-lg-4 mb-4" id="bookmark-card-<%= coordinate.id %>">
-                <div class="card h-100" style="cursor: pointer;"
-                     data-bs-toggle="modal"
+              <div class="col-md-6 col-lg-4 mb-4">
+                <div id="bookmark-card-<%= coordinate.id %>" 
+                     class="card h-100 coordinate-card" 
+                     style="cursor: pointer;"
+                     data-bs-toggle="modal" 
                      data-bs-target="#coordinateModal<%= coordinate.id %>">
                   <% if coordinate.image.attached? %>
                     <%= image_tag coordinate.image, alt: coordinate.name, class: "card-img-top" %>
