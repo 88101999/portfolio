@@ -75,7 +75,7 @@ RSpec.describe "お気に入り機能", type: :system do
         find("#coordinate-card-#{coordinate.id}").click
 
         expect(page).to have_css("#coordinateModal#{coordinate.id}.show", visible: true, wait: 10)
-        
+
         within("#coordinateModal#{coordinate.id}") do
           expect(page).to have_button 'お気に入りから削除'
 
