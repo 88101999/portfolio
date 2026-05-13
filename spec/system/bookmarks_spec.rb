@@ -11,7 +11,7 @@ RSpec.describe "お気に入り機能", type: :system do
 
   let!(:coordinate) do
     coord = create(:coordinate, name: 'コーディネート0')
-    coord.options << [ option1, option2, option3, option4 ]
+    coord.options = [ option1, option2, option3, option4 ]
     coord
   end
 
