@@ -52,7 +52,7 @@ RSpec.describe "お気に入り機能", type: :system do
         expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: true, wait: 10)
 
         sleep 1
-        
+
         within("#coordinateModal#{coordinate.id}") do
           expect(page).to have_button 'お気に入りに追加', wait: 10
 
