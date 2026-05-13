@@ -41,105 +41,104 @@ RSpec.describe "お気に入り機能", type: :system do
   end
 
   describe "正常系" do
-      before do
-        user.bookmarks.create!(coordinate: coordinate)
+    before do
+      user.bookmarks.create!(coordinate: coordinate)
+    end
+
+    it "コーディネート一覧ページからモーダル経由でお気に入り解除できること" do
+      visit coordinates_path
+
+      find("#coordinate-card-#{coordinate.id}").click
+
+      expect(page).to have_css("#coordinateModal#{coordinate.id}.show", visible: true, wait: 10)
+
+      within("#coordinateModal#{coordinate.id}") do
+        expect(page).to have_button 'お気に入りから削除'
+
+        click_button 'お気に入りから削除'
+        expect(page).to have_button 'お気に入りに追加', wait: 5
       end
 
-      it "コーディネート一覧ページからモーダル経由でお気に入り解除できること" do
-        visit coordinates_path
+      user.reload
+      expect(user.bookmarks.count).to eq 0
+      expect(user.bookmarked_coordinates).not_to include(coordinate)
+    end
+  end
 
-        find("#coordinate-card-#{coordinate.id}").click
+  describe "お気に入り一覧表示" do
+    let!(:coordinate1) do
+      coord = create(:coordinate, name: 'コーディネート1')
+      coord.options = [ option1, option2, option3, option4 ]
+      coord
+    end
 
-        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", visible: true, wait: 10)
+    let!(:coordinate2) do
+      coord = create(:coordinate, name: 'コーディネート2')
+      coord.options = [ option1, option2, option3, option4 ]
+      coord
+    end
 
-        within("#coordinateModal#{coordinate.id}") do
-          expect(page).to have_button 'お気に入りから削除'
+    let!(:coordinate3) do
+      coord = create(:coordinate, name: 'コーディネート3')
+      coord.options = [ option1, option2, option3, option4 ]
+      coord
+    end
 
-          click_button 'お気に入りから削除'
-          expect(page).to have_button 'お気に入りに追加', wait: 5
-        end
+    before do
+      user.bookmarks.create!(coordinate: coordinate1)
+      user.bookmarks.create!(coordinate: coordinate2)
+    end
 
-        user.reload
-        expect(user.bookmarks.count).to eq 0
-        expect(user.bookmarked_coordinates).not_to include(coordinate)
+    it "お気に入り一覧ページでお気に入り登録したコーディネートのみ表示されること" do
+      visit bookmarks_path
+
+      expect(page).to have_content 'お気に入りコーディネート一覧'
+
+      expect(page).to have_content 'コーディネート1'
+      expect(page).to have_content 'コーディネート2'
+
+      expect(page).not_to have_content 'コーディネート3'
+    end
+
+    it "お気に入りが1件もない場合、メッセージが表示されること" do
+      user.bookmarks.destroy_all
+
+      visit bookmarks_path
+
+      expect(page).to have_content 'お気に入りのコーディネートがありません'
+    end
+
+    it "お気に入り一覧ページからモーダルを開けること" do
+      visit bookmarks_path
+
+      expect(page).to have_css("#bookmark-card-#{coordinate1.id}")
+
+      find("#bookmark-card-#{coordinate1.id}").click
+
+      expect(page).to have_css("#coordinateModal#{coordinate1.id}.show", wait: 5)
+
+      within("#coordinateModal#{coordinate1.id}") do
+        expect(page).to have_content 'コーディネート1'
       end
     end
 
-    describe "お気に入り一覧表示" do
-      let!(:coordinate1) do
-        coord = create(:coordinate, name: 'コーディネート1')
-        coord.options = [ option1, option2, option3, option4 ]
-        coord
-      end
+    it "お気に入り一覧ページからモーダル経由でお気に入り解除できること" do
+      visit bookmarks_path
+      find("#bookmark-card-#{coordinate1.id}").click
 
-      let!(:coordinate2) do
-        coord = create(:coordinate, name: 'コーディネート2')
-        coord.options = [ option1, option2, option3, option4 ]
-        coord
-      end
+      expect(page).to have_css("#coordinateModal#{coordinate1.id}.show", wait: 5)
 
-      let!(:coordinate3) do
-        coord = create(:coordinate, name: 'コーディネート3')
-        coord.options = [ option1, option2, option3, option4 ]
-        coord
-      end
-
-      before do
-        user.bookmarks.create!(coordinate: coordinate1)
-        user.bookmarks.create!(coordinate: coordinate2)
-      end
-
-      it "お気に入り一覧ページでお気に入り登録したコーディネートのみ表示されること" do
-        visit bookmarks_path
-
-        expect(page).to have_content 'お気に入りコーディネート一覧'
-
-        expect(page).to have_content 'コーディネート1'
-        expect(page).to have_content 'コーディネート2'
-
-        expect(page).not_to have_content 'コーディネート3'
-      end
-
-      it "お気に入りが1件もない場合、メッセージが表示されること" do
-        user.bookmarks.destroy_all
-
-        visit bookmarks_path
-
-        expect(page).to have_content 'お気に入りのコーディネートがありません'
-      end
-
-      it "お気に入り一覧ページからモーダルを開けること" do
-        visit bookmarks_path
-
-        expect(page).to have_css("#bookmark-card-#{coordinate1.id}")
-
-        find("#bookmark-card-#{coordinate1.id}").click
-
-        expect(page).to have_css("#coordinateModal#{coordinate1.id}.show", wait: 5)
-
-        within("#coordinateModal#{coordinate1.id}") do
-          expect(page).to have_content 'コーディネート1'
+      within("#coordinateModal#{coordinate1.id}") do
+        accept_confirm do
+          click_button 'お気に入りから削除'
         end
       end
 
-      it "お気に入り一覧ページからモーダル経由でお気に入り解除できること" do
-        visit bookmarks_path
-        find("#bookmark-card-#{coordinate1.id}").click
+      expect(page).not_to have_css("#bookmark-card-#{coordinate1.id}", wait: 5)
 
-        expect(page).to have_css("#coordinateModal#{coordinate1.id}.show", wait: 5)
-
-        within("#coordinateModal#{coordinate1.id}") do
-          accept_confirm do
-            click_button 'お気に入りから削除'
-          end
-        end
-
-        expect(page).not_to have_css("#bookmark-card-#{coordinate1.id}", wait: 5)
-
-        user.reload
-        expect(user.bookmarks.count).to eq 1
-        expect(user.bookmarked_coordinates).not_to include(coordinate1)
-      end
+      user.reload
+      expect(user.bookmarks.count).to eq 1
+      expect(user.bookmarked_coordinates).not_to include(coordinate1)
     end
   end
 
