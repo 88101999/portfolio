@@ -89,7 +89,7 @@ RSpec.describe "お気に入り機能", type: :system do
         sleep 0.5
 
         # モーダル内のボタンが表示されるまで待機
-        within("#coordinateModal#{coordinate.id}") do
+        within("#coordinateModal#{coordinate.id}", visible: :all) do
           expect(page).to have_button 'お気に入りから削除', wait: 10
 
           click_button 'お気に入りから削除'
