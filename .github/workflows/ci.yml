@@ -48,3 +48,4 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
         run: bundle exec rspec
+        
