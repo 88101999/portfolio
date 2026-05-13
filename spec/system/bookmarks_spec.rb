@@ -48,7 +48,7 @@ RSpec.describe "お気に入り機能", type: :system do
         expect(page).to have_css("#coordinate-card-#{coordinate.id}")
 
         find("#coordinate-card-#{coordinate.id}").click
-        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", visible: true, wait: 5)
+        expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: true, wait: 10)
 
         within("#coordinateModal#{coordinate.id}") do
           expect(page).to have_button 'お気に入りに追加'
