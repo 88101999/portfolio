@@ -50,15 +50,17 @@ RSpec.describe "お気に入り機能", type: :system do
         find("#coordinate-card-#{coordinate.id}").click
 
         expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: :all, wait: 10)
+        expect(page).to have_css("#coordinateModal#{coordinate.id}.modal", visible: :all, wait: 10)
+        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", wait: 15)
 
-        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", wait: 10)
+        modal = find("#coordinateModal#{coordinate.id}")
+        expect(modal).to be_visible
 
 
-        # モーダル内のボタンが表示されるまで待機
         within("#coordinateModal#{coordinate.id}") do
-          expect(page).to have_button 'お気に入りに追加', wait: 10
-
-          click_button 'お気に入りに追加'
+          button = find_button('お気に入りに追加', wait: 10)
+          expect(button).to be_visible
+          button.click
 
           expect(page).to have_button 'お気に入りから削除', wait: 10
         end

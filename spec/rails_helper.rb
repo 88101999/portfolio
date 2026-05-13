@@ -47,6 +47,11 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:each, type: :system) do
+    if ENV['CI']
+      Capybara.default_max_wait_time = 15
+    else
+      Capybara.default_max_wait_time = 5
+    end
     driven_by :remote_chrome
     Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
     # ポート番号は自動割り当て（Capybara.server_portは自動で設定される）
