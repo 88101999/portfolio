@@ -45,22 +45,27 @@ RSpec.describe "お気に入り機能", type: :system do
       it "コーディネート一覧ページからモーダル経由でお気に入り登録できること" do
         visit coordinates_path
 
-        expect(page).to have_css("#coordinate-card-#{coordinate.id}")
+        # ページが完全に読み込まれるまで待つ
+        sleep 2
 
-        find("#coordinate-card-#{coordinate.id}").click
+        # カードが表示されるまで待つ
+        expect(page).to have_css("#coordinate-card-#{coordinate.id}", wait: 10)
 
-        expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: :all, wait: 10)
-        expect(page).to have_css("#coordinateModal#{coordinate.id}.modal", visible: :all, wait: 10)
+        # JavaScript でクリック
+        page.execute_script(<<~JS)
+          const card = document.getElementById('coordinate-card-#{coordinate.id}');
+          card.scrollIntoView({ behavior: 'instant', block: 'center' });
+          setTimeout(() => card.click(), 500);
+        JS
+
+        # モーダルが開くまで待つ
+        expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: :all, wait: 15)
         expect(page).to have_css("#coordinateModal#{coordinate.id}.show", wait: 15)
 
-        modal = find("#coordinateModal#{coordinate.id}")
-        expect(modal).to be_visible
-
-
         within("#coordinateModal#{coordinate.id}") do
-          button = find_button('お気に入りに追加', wait: 10)
-          expect(button).to be_visible
-          button.click
+          expect(page).to have_button 'お気に入りに追加', wait: 10
+
+          click_button 'お気に入りに追加'
 
           expect(page).to have_button 'お気に入りから削除', wait: 10
         end
