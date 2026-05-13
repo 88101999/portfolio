@@ -50,7 +50,7 @@ RSpec.describe "お気に入り機能", type: :system do
         find("#coordinate-card-#{coordinate.id}").click
 
         expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: :all, wait: 10)
-        
+
         expect(page).to have_css("#coordinateModal#{coordinate.id}.show", wait: 10)
 
 
