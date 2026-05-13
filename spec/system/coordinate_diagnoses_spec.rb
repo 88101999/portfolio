@@ -28,9 +28,17 @@ RSpec.describe "コーディネート提案", type: :system do
 
   describe "正常系" do
     it "すべての質問に回答してコーディネート提案が成功すること" do
-      coordinate = create(:coordinate, :with_options)
+    # 既存の質問から Option を取得
+      option1 = Option.find_by(name: "メンズ系")
+      option2 = Option.find_by(name: "春")
+      option3 = Option.find_by(name: "休日のお出かけ")
+      option4 = Option.find_by(name: "カジュアル系")
 
-      # AI APIのモック化
+    # Coordinate を作成して、既存の Option を関連付ける
+      coordinate = create(:coordinate)
+      coordinate.options << [option1, option2, option3, option4]
+
+    # AI APIのモック化
       allow_any_instance_of(CoordinateRecommendationService)
         .to receive(:call)
         .and_return('このコーディネートは春の休日にぴったりです。')
