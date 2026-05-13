@@ -4,28 +4,30 @@ RSpec.describe "お気に入り機能", type: :system do
   let(:user) { create(:user) }
   let!(:answer_log) { create(:answer_log, user: user) }
 
-  let!(:option1) { Option.find_or_create_by(name: "メンズ系") }
-  let!(:option2) { Option.find_or_create_by(name: "春") }
-  let!(:option3) { Option.find_or_create_by(name: "休日のお出かけ") }
-  let!(:option4) { Option.find_or_create_by(name: "カジュアル系") }
+  # 質問を先に作成
+  let!(:question1) { create(:question, text: "性別を選択してください", order: 1) }
+  let!(:question2) { create(:question, text: "季節を選択してください", order: 2) }
+  let!(:question3) { create(:question, text: "シーンを選択してください", order: 3) }
+  let!(:question4) { create(:question, text: "スタイルを選択してください", order: 4) }
+
+  # 質問に関連付けられたOptionを作成
+  let!(:option1) { create(:option, name: "メンズ系", question: question1) }
+  let!(:option2) { create(:option, name: "春", question: question2) }
+  let!(:option3) { create(:option, name: "休日のお出かけ", question: question3) }
+  let!(:option4) { create(:option, name: "カジュアル系", question: question4) }
 
   let!(:coordinate) do
     coord = create(:coordinate, name: 'コーディネート0')
     coord.options = [ option1, option2, option3, option4 ]
+    coord.save!
     coord
   end
 
   before do
-    question1 = create(:question, text: "性別を選択してください")
+    # 回答を作成
     create(:answer, answer_log: answer_log, question: question1, option: option1)
-
-    question2 = create(:question, text: "季節を選択してください")
     create(:answer, answer_log: answer_log, question: question2, option: option2)
-
-    question3 = create(:question, text: "シーンを選択してください")
     create(:answer, answer_log: answer_log, question: question3, option: option3)
-
-    question4 = create(:question, text: "スタイルを選択してください")
     create(:answer, answer_log: answer_log, question: question4, option: option4)
 
     page.driver.browser.manage.window.resize_to(1920, 1080)
@@ -87,19 +89,19 @@ RSpec.describe "お気に入り機能", type: :system do
     describe "お気に入り一覧表示" do
       let!(:coordinate1) do
         coord = create(:coordinate, name: 'コーディネート1')
-        coord.options << [ option1, option2, option3, option4 ]
+        coord.options = [ option1, option2, option3, option4 ]
         coord
       end
 
       let!(:coordinate2) do
         coord = create(:coordinate, name: 'コーディネート2')
-        coord.options << [ option1, option2, option3, option4 ]
+        coord.options = [ option1, option2, option3, option4 ]
         coord
       end
 
       let!(:coordinate3) do
         coord = create(:coordinate, name: 'コーディネート3')
-        coord.options << [ option1, option2, option3, option4 ]
+        coord.options = [ option1, option2, option3, option4 ]
         coord
       end
 
