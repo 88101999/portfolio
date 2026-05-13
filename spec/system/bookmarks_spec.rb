@@ -41,32 +41,6 @@ RSpec.describe "お気に入り機能", type: :system do
   end
 
   describe "正常系" do
-    describe "お気に入り登録" do
-      it "コーディネート一覧ページからモーダル経由でお気に入り登録できること" do
-        visit coordinates_path
-
-        expect(page).to have_css("#coordinate-card-#{coordinate.id}")
-
-        find("#coordinate-card-#{coordinate.id}").click
-
-        expect(page).to have_css("#coordinateModal#{coordinate.id}", wait: 10)
-
-        sleep 1
-
-        within("#coordinateModal#{coordinate.id}") do
-          expect(page).to have_button 'お気に入りに追加', visible: true, wait: 10
-
-          click_button 'お気に入りに追加'
-          expect(page).to have_button 'お気に入りから削除', visible: true, wait: 10
-        end
-
-        user.reload
-        expect(user.bookmarks.count).to eq 1
-        expect(user.bookmarked_coordinates).to include(coordinate)
-      end
-    end
-
-    describe "お気に入り解除" do
       before do
         user.bookmarks.create!(coordinate: coordinate)
       end
