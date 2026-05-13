@@ -18,7 +18,7 @@ FactoryBot.define do
         option3 = create(:option, name: "休日のお出かけ", question: question3)
         option4 = create(:option, name: "カジュアル系", question: question4)
 
-        coordinate.options << [option1, option2, option3, option4]
+        coordinate.options << [ option1, option2, option3, option4 ]
       end
     end
   end
