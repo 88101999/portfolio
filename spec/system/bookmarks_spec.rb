@@ -49,11 +49,10 @@ RSpec.describe "お気に入り機能", type: :system do
 
         find("#coordinate-card-#{coordinate.id}").click
 
-        # モーダルが DOM に存在することを確認（表示・非表示は問わない）
-        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", visible: :all, wait: 10)
+        expect(page).to have_css("#coordinateModal#{coordinate.id}", visible: :all, wait: 10)
+        
+        expect(page).to have_css("#coordinateModal#{coordinate.id}.show", wait: 10)
 
-        # JavaScript の実行が完了するまで少し待つ
-        sleep 0.5
 
         # モーダル内のボタンが表示されるまで待機
         within("#coordinateModal#{coordinate.id}") do
