@@ -33,7 +33,7 @@ ja:
       
       coordinate:
         name: コーディネート名
-        description: 説明
+        description: 使用アイテム
         image_url: コーディネート画像
         ai_explanation: AI解説
         ai_explanation_error: AI解説のエラー
