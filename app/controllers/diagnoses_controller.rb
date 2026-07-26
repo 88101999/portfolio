@@ -4,7 +4,7 @@ class DiagnosesController < ApplicationController
   # 各ステップの表示
   def show_step
     @step = params[:step].to_i
-    @question = Question.find_by(order: @step)
+    @question = Question.find_by!(order: @step)
     @current_answer = session[:diagnosis_answers][@step.to_s]
   end
 
@@ -25,7 +25,7 @@ class DiagnosesController < ApplicationController
     if @step < total_steps
       redirect_to step_diagnoses_path(step: @step + 1), status: :see_other
     else
-      # デバッグ用の遅延
+      # デバッグ用の遅延(ローディング画面確認用)
       sleep 2 if Rails.env.development?
 
       # 全ての質問に回答したらAnswerLogとAnswersを作成
@@ -41,17 +41,19 @@ class DiagnosesController < ApplicationController
   end
 
   def save_answers_to_database
-    answer_log = current_user.answer_logs.create!
+    ActiveRecord::Base.transaction do
+      answer_log = current_user.answer_logs.create!
 
-    session[:diagnosis_answers].each do |step, option_id|
-      question = Question.find_by(order: step.to_i)
-      answer_log.answers.create!(
-        question: question,
-        option_id: option_id,
-        user: current_user
-      )
+      session[:diagnosis_answers].each do |step, option_id|
+        question = Question.find_by!(order: step.to_i)
+        answer_log.answers.create!(
+          question: question,
+          option_id: option_id,
+          user: current_user
+        )
+      end
     end
-
+    # セッションの診断回答をクリア
     session.delete(:diagnosis_answers)
   end
 end
